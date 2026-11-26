@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Лена Миронова — Портфолио графического дизайнера</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Unbounded (выразительный кириллический дисплей), Inter (основной), Cormorant Garamond (редакционный курсив), JetBrains Mono (метаданные архива) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Unbounded', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            paper: '#F6F5F1',
+            ink: '#121211',
+            accent: '#C4452B',
+            stone: '#E8E5DE',
+            surface: '#FFFFFF',
+          },
+          animation: {
+            marquee: 'marquee 28s linear infinite',
+            'spin-slow': 'spin 18s linear infinite',
+            float: 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(var(--tw-rotate, 0deg))' },
+              '50%': { transform: 'translateY(-8px) rotate(var(--tw-rotate, 0deg))' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Кастомный курсор только для устройств с мышью */
+    @media (hover: hover) and (pointer: fine) {
+      #custom-cursor {
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+      }
+    }
+
+    /* Перетаскиваемые студийные теги */
+    .sticker {
+      user-select: none;
+      touch-action: none;
+      cursor: grab;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .sticker:active {
+      cursor: grabbing;
+      z-index: 60 !important;
+    }
+
+    /* Плавное появление элементов при скролле */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Скрытие скроллбара для горизонтальных фильтров и миниатюр */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="bg-paper text-ink selection:bg-ink selection:text-paper">
+
+  <!-- Кастомный курсор (только десктоп) -->
+  <div id="custom-cursor" class="hidden md:flex items-center justify-center rounded-full bg-ink text-paper font-mono text-[10px] font-medium uppercase tracking-widest w-3.5 h-3.5 opacity-0">
+    <span id="cursor-label" class="hidden px-2.5 whitespace-nowrap"></span>
+  </div>
+
+  <!-- Плавающее превью для режима «Индекс» (в стиле Studio Loum) -->
+  <div id="index-hover-preview" class="hidden lg:block pointer-events-none fixed z-50 w-72 aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-ink/15 opacity-0 scale-90 transition-all duration-200 bg-white">
+    <div id="index-hover-content" class="w-full h-full"></div>
+  </div>
+
+  <!-- Уведомление (Toast) вместо alert() -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+    <div class="bg-ink text-paper px-5 py-3 rounded-full shadow-xl font-mono text-xs flex items-center gap-2.5 border border-paper/10">
+      <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+      <span id="toast-message">Готово</span>
+    </div>
+  </div>
+
+  <!-- ==================== НАВИГАЦИЯ ==================== -->
+  <header class="fixed top-0 inset-x-0 z-40 px-3 sm:px-6 pt-3 sm:pt-4">
+    <nav class="max-w-7xl mx-auto bg-paper/90 backdrop-blur-md border border-ink/10 rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between shadow-sm">
+      <!-- Логотип / Монограмма -->
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-xl bg-ink text-paper flex items-center justify-center font-display font-bold text-xs group-hover:bg-accent transition-colors">
+          ЛМ
+        </div>
+        <div class="leading-tight">
+          <div class="font-display text-xs sm:text-sm font-bold tracking-tight">ЛЕНА МИРОНОВА</div>
+          <div class="font-mono text-[10px] opacity-55 hidden sm:block">графический дизайн • пермь</div>
+        </div>
+      </a>
+
+      <!-- Ссылки (десктоп) -->
+      <div class="hidden md:flex items-center gap-1 bg-ink/[0.04] p-1 rounded-xl font-mono text-xs">
+        <a href="#works" class="px-3.5 py-1.5 rounded-lg hover:bg-white transition-colors">архив [18]</a>
+        <a href="#manifesto" class="px-3.5 py-1.5 rounded-lg hover:bg-white transition-colors">манифест</a>
+        <a href="#services" class="px-3.5 py-1.5 rounded-lg hover:bg-white transition-colors">услуги</a>
+        <a href="#contact" class="px-3.5 py-1.5 rounded-lg hover:bg-white transition-colors">связь</a>
+      </div>
+
+      <!-- Управляющие кнопки -->
+      <div class="flex items-center gap-2">
+        <!-- CTA -->
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 bg-ink text-paper hover:bg-accent px-4 py-2 rounded-xl font-mono text-xs font-medium transition-colors">
+          <span>обсудить проект</span>
+          <span>↗</span>
+        </a>
+
+        <!-- Мобильное меню -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl border border-ink/15 font-mono text-xs" aria-label="Меню">
+          меню
+        </button>
+      </div>
+    </nav>
+
+    <!-- Выпадающее мобильное меню -->
+    <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto mt-2 bg-paper/95 backdrop-blur-lg border border-ink/10 rounded-2xl p-4 shadow-xl">
+      <div class="flex flex-col gap-2 font-mono text-sm">
+        <a href="#works" class="mobile-link px-4 py-3 rounded-xl hover:bg-ink/5 flex justify-between"><span>архив работ</span><span class="opacity-50">18</span></a>
+        <a href="#manifesto" class="mobile-link px-4 py-3 rounded-xl hover:bg-ink/5">манифест</a>
+        <a href="#services" class="mobile-link px-4 py-3 rounded-xl hover:bg-ink/5">услуги и подход</a>
+        <a href="#contact" class="mobile-link px-4 py-3 rounded-xl bg-ink text-paper text-center font-medium mt-1">начать проект ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section id="top" class="relative min-h-[88vh] pt-28 sm:pt-36 pb-16 px-4 sm:px-6 flex flex-col justify-between overflow-hidden">
+    <div class="max-w-7xl w-full mx-auto relative z-10">
+      <!-- Верхняя строка статуса -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-8 sm:mb-12">
+        <div class="inline-flex items-center gap-2.5 bg-white border border-ink/10 px-3.5 py-1.5 rounded-full font-mono text-[11px] sm:text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-accent"></span>
+          <span>открыта к заказам • 2026 / 2027</span>
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-[11px] sm:text-xs opacity-65">
+          <span>c/o Лена Миронова</span>
+          <span>•</span>
+          <button id="shuffle-stickers" class="underline decoration-dotted hover:opacity-100 hover:text-accent transition-colors cursor-pointer">
+            перемешать карточки ✦
+          </button>
+        </div>
+      </div>
+
+      <!-- Главный заголовок + сдержанные перетаскиваемые студийные карточки -->
+      <div id="sticker-arena" class="relative py-6 sm:py-10">
+        <h1 class="font-display font-extrabold text-[clamp(2.2rem,7.2vw,6.4rem)] leading-[0.98] tracking-tight uppercase relative z-10">
+          Делаю дизайн,<br />
+          который <span class="font-serif italic font-semibold lowercase text-accent tracking-normal text-[1.12em]">хочется</span><br />
+          <span class="inline-flex items-center flex-wrap gap-3">
+            <span>рассматривать</span>
+            <span class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-ink text-paper text-2xl sm:text-4xl border border-ink/15 shadow-sm">✦</span>
+          </span>
+        </h1>
+
+        <!-- Интерактивные перетаскиваемые теги (строгий студийный стиль) -->
+        <div class="sticker hidden lg:flex items-center gap-2 absolute top-0 right-[8%] bg-ink text-paper px-4 py-2 rounded-full font-mono text-xs font-medium border border-ink/20 shadow-lg rotate-3 z-20" data-cursor="ТЯНИ">
+          <span class="text-accent">●</span> <span>ПЕРМЬ / WORLDWIDE</span>
+        </div>
+
+        <div class="sticker hidden lg:flex flex-col absolute bottom-2 right-[18%] bg-white text-ink p-3 rounded-xl border border-ink/15 shadow-xl -rotate-3 z-20 w-32" data-cursor="ТЯНИ">
+          <div class="h-12 rounded-lg bg-gradient-to-tr from-[#121211] via-[#4A3B36] to-[#C4452B] mb-2"></div>
+          <div class="font-mono text-[9px] font-bold leading-tight">STUDIO ARCHIVE</div>
+          <div class="font-mono text-[8px] opacity-60">ISSUE 2026–27</div>
+        </div>
+
+        <div class="sticker hidden xl:flex items-center gap-2 absolute top-1/2 -translate-y-1/2 right-[2%] bg-stone text-ink px-4 py-2.5 rounded-2xl font-mono text-[11px] font-semibold border border-ink/15 shadow-md rotate-2 z-20" data-cursor="ТЯНИ">
+          <span>CMYK • PRINT • BRAND</span>
+        </div>
+      </div>
+
+      <!-- Подзаголовок и быстрые теги специализаций -->
+      <div class="mt-8 sm:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-7">
+          <p class="text-base sm:text-xl leading-relaxed opacity-85 max-w-2xl">
+            Привет! Я Лена — графический дизайнер. Придумываю <span class="underline decoration-accent/60 decoration-2 underline-offset-4 font-medium">брендбуки, упаковку, журнальные обложки, афиши и выставочную графику</span> для фестивалей, музеев, локальных брендов и смелых проектов. Помогаю идеям выглядеть цельно и выразительно.
+          </p>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-wrap lg:justify-end gap-2">
+          <span class="px-3.5 py-2 rounded-xl bg-white border border-ink/10 font-mono text-xs">айдентика & брендбуки</span>
+          <span class="px-3.5 py-2 rounded-xl bg-white border border-ink/10 font-mono text-xs">упаковка</span>
+          <span class="px-3.5 py-2 rounded-xl bg-white border border-ink/10 font-mono text-xs">плакаты & OOH</span>
+          <span class="px-3.5 py-2 rounded-xl bg-white border border-ink/10 font-mono text-xs">журналы & буклеты</span>
+          <span class="px-3.5 py-2 rounded-xl bg-white border border-ink/10 font-mono text-xs">выставочные стенды</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Строгая контрастная бегущая строка (вайб Blast) -->
+    <div class="mt-14 sm:mt-20 -mx-4 sm:-mx-6 border-y border-ink/15 py-4 bg-ink text-paper overflow-hidden">
+      <div class="flex w-max animate-marquee font-display text-xs sm:text-sm font-semibold uppercase tracking-widest">
+        <div class="flex items-center gap-8 px-4">
+          <span><span class="text-accent mr-2">✦</span>АЙДЕНТИКА</span>
+          <span><span class="text-accent mr-2">✦</span>ДИЗАЙН УПАКОВКИ</span>
+          <span><span class="text-accent mr-2">✦</span>ПЛАКАТЫ И АФИШИ</span>
+          <span><span class="text-accent mr-2">✦</span>ПОЛИГРАФИЯ</span>
+          <span><span class="text-accent mr-2">✦</span>ВЫСТАВОЧНАЯ ГРАФИКА</span>
+          <span><span class="text-accent mr-2">✦</span>ПРЕДПЕЧАТНАЯ ПОДГОТОВКА</span>
+          <span><span class="text-accent mr-2">✦</span>ТИПОГРАФИКА</span>
+        </div>
+        <div class="flex items-center gap-8 px-4" aria-hidden="true">
+          <span><span class="text-accent mr-2">✦</span>АЙДЕНТИКА</span>
+          <span><span class="text-accent mr-2">✦</span>ДИЗАЙН УПАКОВКИ</span>
+          <span><span class="text-accent mr-2">✦</span>ПЛАКАТЫ И АФИШИ</span>
+          <span><span class="text-accent mr-2">✦</span>ПОЛИГРАФИЯ</span>
+          <span><span class="text-accent mr-2">✦</span>ВЫСТАВОЧНАЯ ГРАФИКА</span>
+          <span><span class="text-accent mr-2">✦</span>ПРЕДПЕЧАТНАЯ ПОДГОТОВКА</span>
+          <span><span class="text-accent mr-2">✦</span>ТИПОГРАФИКА</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== АРХИВ РАБОТ (STUDIO LOUM × BENTO × DESK) ==================== -->
+  <section id="works" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+    <!-- Шапка секции + переключатели вида -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-widest opacity-55 mb-2">N°001 — N°018 / Избранный архив</div>
+        <h2 class="font-display font-bold text-3xl sm:text-5xl tracking-tight">
+          Мои работы <span class="font-serif italic font-normal text-accent">(18 проектов)</span>
+        </h2>
+      </div>
+
+      <!-- Переключатель режимов просмотра -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex bg-ink/[0.05] p-1 rounded-xl font-mono text-xs">
+          <button data-view="grid" class="view-btn px-3.5 py-2 rounded-lg bg-ink text-paper font-medium transition-all">
+            ⊞ витрина
+          </button>
+          <button data-view="index" class="view-btn px-3.5 py-2 rounded-lg hover:bg-white/70 transition-all">
+            ☰ индекс
+          </button>
+          <button data-view="desk" class="view-btn px-3.5 py-2 rounded-lg hover:bg-white/70 transition-all">
+            ❖ стол
+          </button>
+        </div>
+
+        <!-- Удобная кнопка для быстрой подгрузки реальных фото -->
+        <button id="open-upload-help" class="px-3.5 py-2 rounded-xl border border-dashed border-ink/30 hover:border-solid hover:bg-white font-mono text-xs transition-all flex items-center gap-1.5" title="Загрузи свои реальные .jpg/.png прямо в карточки">
+          <span>↑</span> <span>мои фото</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Фильтры по категориям -->
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-8" id="filter-bar">
+      <button data-filter="all" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-ink text-paper font-mono text-xs font-medium transition-all">
+        Все работы [18]
+      </button>
+      <button data-filter="branding" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all">
+        Айдентика и брендбуки [2]
+      </button>
+      <button data-filter="packaging" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all">
+        Упаковка [4]
+      </button>
+      <button data-filter="print" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all">
+        Полиграфия и журналы [5]
+      </button>
+      <button data-filter="posters" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all">
+        Афиши и плакаты [3]
+      </button>
+      <button data-filter="expo" class="filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all">
+        Выставки и баннеры [4]
+      </button>
+    </div>
+
+    <!-- Контейнер проектов (динамически рендерится в зависимости от режима) -->
+    <div id="projects-container" class="min-h-[400px]"></div>
+
+    <!-- Плашка «Есть ещё проекты» -->
+    <div class="mt-12 p-6 sm:p-8 rounded-3xl border border-ink/15 bg-white/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 reveal">
+      <div>
+        <div class="font-mono text-xs opacity-55 mb-1">АРХИВ ПОПОЛНЯЕТСЯ</div>
+        <p class="font-display text-lg sm:text-xl font-semibold">Нужно больше примеров под конкретную задачу?</p>
+        <p class="text-sm opacity-75 mt-1">В моих папках лежит ещё много коммерческих и учебных макетов — пришлю подборку под твой проект.</p>
+      </div>
+      <a href="#contact" class="shrink-0 px-5 py-3 rounded-2xl bg-ink text-paper hover:bg-accent font-mono text-xs font-medium transition-colors">
+        запросить pdf-архив ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== МАНИФЕСТ ==================== -->
+  <section id="manifesto" class="py-16 sm:py-28 px-4 sm:px-6 bg-ink text-paper rounded-[2rem] sm:rounded-[3rem] mx-2 sm:mx-6 my-8 relative overflow-hidden">
+    <!-- Деликатное свечение -->
+    <div class="pointer-events-none absolute -top-24 -right-24 w-80 h-80 rounded-full bg-accent/15 blur-3xl"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
+      <div class="flex items-center justify-between font-mono text-xs text-paper/60 mb-8">
+        <span>/ ПОДХОД И ПРИНЦИПЫ</span>
+        <span>02 / О СЕБЕ</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div class="lg:col-span-7 reveal">
+          <h2 class="font-display font-bold text-2xl sm:text-4xl lg:text-5xl leading-[1.12] tracking-tight">
+            Хороший дизайн — это не просто <span class="font-serif italic font-normal text-accent">«красивая картинка»</span>, а ощущение, которое остаётся с человеком.
+          </h2>
+          <p class="mt-6 text-base sm:text-lg text-paper/75 leading-relaxed">
+            Мне нравится, когда графику можно потрогать: хруст крафтового пакета с фермерским молоком, разворот квест-буклета за ужином, или яркий плакат, мимо которого невозможно пройти в выставочном зале.
+          </p>
+          <p class="mt-4 text-base sm:text-lg text-paper/75 leading-relaxed">
+            Я одинаково люблю строгие швейцарские сетки и смелые цветовые эксперименты. Всегда вникаю в суть проекта, аккуратно готовлю макеты к печати и довожу детали до идеального вида.
+          </p>
+        </div>
+
+        <!-- Карточка-досье дизайнера -->
+        <div class="lg:col-span-5 bg-paper/[0.04] border border-paper/15 rounded-3xl p-6 sm:p-8 backdrop-blur-sm reveal">
+          <div class="flex items-center justify-between pb-5 mb-5 border-b border-paper/10">
+            <div>
+              <div class="font-mono text-[10px] uppercase text-accent">ДОСЬЕ ДИЗАЙНЕРА</div>
+              <div class="font-display text-lg font-bold mt-0.5">Лена Миронова</div>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-paper text-ink flex items-center justify-center font-display font-extrabold text-sm">
+              ЛМ
+            </div>
+          </div>
+
+          <dl class="space-y-4 font-mono text-xs">
+            <div class="flex justify-between gap-4">
+              <dt class="text-paper/50">Локация</dt>
+              <dd class="text-right">Пермь / Удалённо по миру</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-paper/50">Инструменты</dt>
+              <dd class="text-right">Illustrator, Photoshop, InDesign, Figma</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-paper/50">Суперсила</dt>
+              <dd class="text-right text-paper">Типографика + идеальная предпечатка</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-paper/50">Вайб</dt>
+              <dd class="text-right">Чёткие дедлайны и ноль скучных шаблонов</dd>
+            </div>
+          </dl>
+
+          <div class="mt-6 pt-5 border-t border-paper/10 flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-paper/10 font-mono text-[11px]">CMYK ready</span>
+            <span class="px-2.5 py-1 rounded-lg bg-paper/10 font-mono text-[11px]">Векторная графика</span>
+            <span class="px-2.5 py-1 rounded-lg bg-paper/10 font-mono text-[11px]">Мокапы</span>
+            <span class="px-2.5 py-1 rounded-lg bg-paper/10 font-mono text-[11px]">Конструктив коробок</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== УСЛУГИ И ПРОЦЕСС ==================== -->
+  <section id="services" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Левая колонка: список услуг -->
+      <div class="lg:col-span-7">
+        <div class="font-mono text-xs uppercase tracking-widest opacity-55 mb-2">03 / Чем я могу помочь</div>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl mb-8">Услуги и форматы</h2>
+
+        <div class="divide-y divide-ink/10 border-y border-ink/10">
+          <div class="py-5 group flex items-start justify-between gap-4 hover:pl-2 transition-all reveal">
+            <div class="flex gap-4">
+              <span class="font-mono text-xs opacity-50 pt-1">01</span>
+              <div>
+                <h3 class="font-display text-lg sm:text-xl font-semibold group-hover:text-accent transition-colors">Дизайн упаковки</h3>
+                <p class="text-sm opacity-70 mt-1">От конструктива и высечки до финальной графики и подготовки файлов для типографии (еда, напитки, подарки, косметика).</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs opacity-40 group-hover:opacity-100">↗</span>
+          </div>
+
+          <div class="py-5 group flex items-start justify-between gap-4 hover:pl-2 transition-all reveal">
+            <div class="flex gap-4">
+              <span class="font-mono text-xs opacity-50 pt-1">02</span>
+              <div>
+                <h3 class="font-display text-lg sm:text-xl font-semibold group-hover:text-accent transition-colors">Афиши, плакаты и наружка</h3>
+                <p class="text-sm opacity-70 mt-1">Фестивали, выставки, курсы, концерты. Билборды, сити-форматы и серии постеров, которые цепляют взгляд за секунду.</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs opacity-40 group-hover:opacity-100">↗</span>
+          </div>
+
+          <div class="py-5 group flex items-start justify-between gap-4 hover:pl-2 transition-all reveal">
+            <div class="flex gap-4">
+              <span class="font-mono text-xs opacity-50 pt-1">03</span>
+              <div>
+                <h3 class="font-display text-lg sm:text-xl font-semibold group-hover:text-accent transition-colors">Полиграфия и редакционная вёрстка</h3>
+                <p class="text-sm opacity-70 mt-1">Буклеты, меню, календари, каталоги, зины и презентации с продуманной сеткой и выразительной типографикой.</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs opacity-40 group-hover:opacity-100">↗</span>
+          </div>
+
+          <div class="py-5 group flex items-start justify-between gap-4 hover:pl-2 transition-all reveal">
+            <div class="flex gap-4">
+              <span class="font-mono text-xs opacity-50 pt-1">04</span>
+              <div>
+                <h3 class="font-display text-lg sm:text-xl font-semibold group-hover:text-accent transition-colors">Выставочная графика и стенды</h3>
+                <p class="text-sm opacity-70 mt-1">Ролл-апы, пресс-воллы, навигация и комплексное оформление выставочных пространств и стендов брендов.</p>
+              </div>
+            </div>
+            <span class="font-mono text-xs opacity-40 group-hover:opacity-100">↗</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Правая колонка: 3 шага работы -->
+      <div class="lg:col-span-5">
+        <div class="font-mono text-xs uppercase tracking-widest opacity-55 mb-2">04 / Как мы работаем</div>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl mb-8">Процесс</h2>
+
+        <div class="space-y-4">
+          <div class="p-6 rounded-3xl bg-white border border-ink/10 reveal">
+            <div class="inline-block px-2.5 py-1 rounded-lg bg-ink text-paper font-mono text-[11px] font-semibold mb-3">ШАГ 01</div>
+            <h3 class="font-display font-bold text-lg">Смысл и мудборд</h3>
+            <p class="text-sm opacity-75 mt-1.5 leading-relaxed">Разбираемся с задачей, аудиторией и форматом носителя. Собираем визуальные референсы, чтобы говорить на одном языке.</p>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-white border border-ink/10 reveal">
+            <div class="inline-block px-2.5 py-1 rounded-lg bg-accent text-white font-mono text-[11px] font-semibold mb-3">ШАГ 02</div>
+            <h3 class="font-display font-bold text-lg">Концепт и макеты</h3>
+            <p class="text-sm opacity-75 mt-1.5 leading-relaxed">Создаю дизайн, подбираю шрифтовые пары, графику и показываю реалистичные мокапы, как проект будет жить в реальном мире.</p>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-white border border-ink/10 reveal">
+            <div class="inline-block px-2.5 py-1 rounded-lg bg-stone text-ink font-mono text-[11px] font-semibold mb-3">ШАГ 03</div>
+            <h3 class="font-display font-bold text-lg">Финал и предпечатка</h3>
+            <p class="text-sm opacity-75 mt-1.5 leading-relaxed">Вносим точечные правки, проверяем вылеты, CMYK и техтребования типографии. Ты получаешь аккуратный архив, готовый к запуску.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== КОНТАКТЫ / НАЧАТЬ ПРОЕКТ ==================== -->
+  <section id="contact" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="rounded-[2rem] sm:rounded-[3rem] bg-white border border-ink/10 p-6 sm:p-12 lg:p-16 shadow-sm reveal">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs uppercase tracking-widest opacity-55 mb-3">05 / Давай сделаем что-то классное</div>
+            <h2 class="font-display font-extrabold text-3xl sm:text-5xl leading-[1.05] tracking-tight">
+              Есть идея?<br />
+              <span class="font-serif italic font-semibold text-accent">Напиши мне!</span>
+            </h2>
+            <p class="mt-5 text-base opacity-75 max-w-md leading-relaxed">
+              Расскажи в двух словах о задаче, сроках или просто пришли ссылку на проект. Отвечаю быстро и по делу.
+            </p>
+          </div>
+
+          <div class="mt-8 space-y-3">
+            <!-- Кнопка копирования почты -->
+            <button id="copy-email-btn" class="w-full sm:w-auto inline-flex items-center justify-between gap-4 px-5 py-3.5 rounded-2xl bg-paper border border-ink/15 hover:border-ink transition-colors font-mono text-xs sm:text-sm">
+              <span id="designer-email">lena.mironova@design.ru</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-ink text-paper text-[10px] font-bold">КОПИРОВАТЬ</span>
+            </button>
+
+            <div class="flex flex-wrap gap-2 pt-2 font-mono text-xs">
+              <a href="#contact" onclick="showToast('Замени ссылку на свой Telegram в коде!'); return false;" class="px-4 py-2 rounded-xl border border-ink/15 hover:bg-ink hover:text-paper transition-colors">Telegram ↗</a>
+              <a href="#contact" onclick="showToast('Замени ссылку на свой Behance в коде!'); return false;" class="px-4 py-2 rounded-xl border border-ink/15 hover:bg-ink hover:text-paper transition-colors">Behance ↗</a>
+              <a href="#contact" onclick="showToast('Замени ссылку на свой Pinterest / Instagram в коде!'); return false;" class="px-4 py-2 rounded-xl border border-ink/15 hover:bg-ink hover:text-paper transition-colors">Pinterest ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Мини-бриф форма -->
+        <form id="contact-form" class="lg:col-span-6 space-y-4">
+          <div>
+            <label class="block font-mono text-[11px] uppercase opacity-60 mb-2">Что нужно сделать?</label>
+            <div class="flex flex-wrap gap-2" id="service-chips">
+              <button type="button" class="chip-btn px-3.5 py-2 rounded-xl border border-ink/15 font-mono text-xs transition-all">Упаковка</button>
+              <button type="button" class="chip-btn px-3.5 py-2 rounded-xl border border-ink/15 font-mono text-xs transition-all">Плакат / Афиша</button>
+              <button type="button" class="chip-btn px-3.5 py-2 rounded-xl border border-ink/15 font-mono text-xs transition-all">Буклет / Календарь</button>
+              <button type="button" class="chip-btn px-3.5 py-2 rounded-xl border border-ink/15 font-mono text-xs transition-all">Стенд / Ролл-ап</button>
+              <button type="button" class="chip-btn px-3.5 py-2 rounded-xl border border-ink/15 font-mono text-xs transition-all">Другое</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input type="text" required placeholder="Как тебя зовут?" class="w-full px-4 py-3.5 rounded-2xl bg-paper border border-ink/10 focus:outline-none focus:border-ink text-sm" />
+            <input type="text" required placeholder="Telegram или Email" class="w-full px-4 py-3.5 rounded-2xl bg-paper border border-ink/10 focus:outline-none focus:border-ink text-sm" />
+          </div>
+
+          <textarea rows="3" required placeholder="Пара слов о проекте и желаемых сроках..." class="w-full px-4 py-3.5 rounded-2xl bg-paper border border-ink/10 focus:outline-none focus:border-ink text-sm resize-none"></textarea>
+
+          <button type="submit" class="w-full py-4 rounded-2xl bg-ink text-paper hover:bg-accent font-display font-bold text-sm tracking-wide transition-colors flex items-center justify-center gap-2">
+            <span>ОТПРАВИТЬ ЗАЯВКУ</span>
+            <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ФУТЕР С ЖИВЫМИ ЧАСАМИ (ПЕРМЬ) ==================== -->
+  <footer class="py-10 px-4 sm:px-6 max-w-7xl mx-auto border-t border-ink/10 font-mono text-xs">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="font-bold">ПЕРМЬ</span>
+        <span id="live-clock" class="px-2.5 py-1 rounded-lg bg-ink/5">--:--:--</span>
+        <span class="opacity-60">[GMT +5]</span>
+      </div>
+
+      <div class="opacity-60">
+        © 2026 Лена Миронова • Графический дизайн
+      </div>
+
+      <a href="#top" class="hover:underline">наверх ↑</a>
+    </div>
+  </footer>
+
+  <!-- ==================== МОДАЛЬНОЕ ОКНО ПРОЕКТА (КЕЙС + ГАЛЕРЕЯ РАКУРСОВ) ==================== -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-ink/75 backdrop-blur-md">
+    <div class="bg-paper text-ink w-full max-w-6xl max-h-[94vh] rounded-3xl border border-ink/15 shadow-2xl overflow-hidden flex flex-col">
+      <!-- Шапка модалки -->
+      <div class="px-5 sm:px-7 py-4 border-b border-ink/10 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <span id="modal-num" class="px-2.5 py-1 rounded-lg bg-ink text-paper font-bold">N°001</span>
+          <span id="modal-cat" class="opacity-60 uppercase">Категория</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="modal-prev" class="px-3 h-9 rounded-xl border border-ink/15 hover:bg-white font-mono text-xs transition-colors" title="Предыдущий проект">← <span class="hidden sm:inline">проект</span></button>
+          <button id="modal-next" class="px-3 h-9 rounded-xl border border-ink/15 hover:bg-white font-mono text-xs transition-colors" title="Следующий проект"><span class="hidden sm:inline">проект</span> →</button>
+          <button id="modal-close" class="w-9 h-9 rounded-xl bg-ink text-paper font-mono text-sm hover:bg-accent transition-colors" title="Закрыть">✕</button>
+        </div>
+      </div>
+
+      <!-- Контент модалки -->
+      <div class="overflow-y-auto p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Левая часть: полноразмерная галерея без обрезки + карусель ракурсов -->
+        <div class="lg:col-span-8 flex flex-col gap-3">
+          <!-- Сцена показа: показывает фото целиком (object-contain), не режет в квадрат -->
+          <div class="relative w-full min-h-[280px] sm:min-h-[430px] max-h-[66vh] rounded-2xl overflow-hidden border border-ink/10 bg-[#ECEAE4] flex items-center justify-center p-2 sm:p-4">
+            <div id="modal-artwork" class="w-full h-full flex items-center justify-center"></div>
+
+            <!-- Стрелки листания ракурсов -->
+            <button type="button" id="slide-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-paper/90 hover:bg-ink hover:text-paper text-ink border border-ink/15 shadow-md flex items-center justify-center font-mono text-base transition-colors" aria-label="Предыдущее фото">‹</button>
+            <button type="button" id="slide-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-paper/90 hover:bg-ink hover:text-paper text-ink border border-ink/15 shadow-md flex items-center justify-center font-mono text-base transition-colors" aria-label="Следующее фото">›</button>
+
+            <!-- Счётчик слайдов -->
+            <div id="slide-counter" class="hidden absolute bottom-3 right-3 px-3 py-1 rounded-full bg-ink/85 text-paper font-mono text-[11px] backdrop-blur-sm">
+              1 / 1
+            </div>
+          </div>
+
+          <!-- Полоса миниатюр (ракурсы проекта) -->
+          <div id="modal-thumbs" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"></div>
+
+          <!-- Панель добавления фото / ракурсов -->
+          <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-white border border-ink/10 font-mono text-[11px]">
+            <span id="modal-filename" class="opacity-65 truncate">Файл: мокап.jpg</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="modal-remove-slide" class="hidden px-2.5 py-1.5 rounded-lg border border-ink/20 hover:bg-accent hover:text-white hover:border-accent transition-colors">
+                удалить фото
+              </button>
+              <label class="cursor-pointer px-3 py-1.5 rounded-lg bg-ink text-paper hover:bg-accent font-medium transition-colors">
+                <span>+ Добавить фото / ракурсы</span>
+                <input id="modal-file-input" type="file" accept="image/*" multiple class="hidden" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая часть: описание и метаданные (без блока палитры) -->
+        <div class="lg:col-span-4 flex flex-col justify-between gap-6">
+          <div>
+            <h3 id="modal-title" class="font-display font-bold text-2xl sm:text-3xl leading-tight">Название проекта</h3>
+            <p id="modal-desc" class="mt-4 text-sm sm:text-base opacity-80 leading-relaxed"></p>
+
+            <!-- Метаданные -->
+            <dl class="mt-6 pt-6 border-t border-ink/10 space-y-3.5 font-mono text-xs">
+              <div class="flex justify-between gap-4">
+                <dt class="opacity-50">Клиент / Проект</dt>
+                <dd id="modal-client" class="text-right font-medium"></dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="opacity-50">Формат / Носитель</dt>
+                <dd id="modal-format" class="text-right font-medium"></dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="opacity-50">Год</dt>
+                <dd id="modal-year" class="text-right font-medium"></dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="opacity-50">Задача</dt>
+                <dd id="modal-role" class="text-right font-medium"></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== МОДАЛКА ЗАГРУЗКИ РЕАЛЬНЫХ ФОТО ==================== -->
+  <div id="upload-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-ink/75 backdrop-blur-md">
+    <div class="bg-paper text-ink w-full max-w-2xl max-h-[85vh] rounded-3xl border border-ink/15 shadow-2xl overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-ink/10 flex items-center justify-between">
+        <div class="font-display font-bold text-lg">Загрузить твои реальные макеты</div>
+        <button id="close-upload-modal" class="w-8 h-8 rounded-xl bg-ink text-paper font-mono text-xs">✕</button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-4">
+        <div class="p-4 rounded-2xl bg-stone/70 border border-ink/10 text-xs sm:text-sm leading-relaxed space-y-2">
+          <div class="font-display font-bold text-sm">Как добавить свои фото и несколько ракурсов?</div>
+          <p class="opacity-85">
+            Есть <strong>два простых способа</strong>:
+          </p>
+          <ol class="list-decimal list-inside space-y-1 opacity-85">
+            <li><strong>Через папку рядом с файлом:</strong> положи свои картинки в ту же папку, где лежит <code>portfolio.html</code>, с именами из списка ниже — сайт подхватит их сам.</li>
+            <li><strong>Через кнопки загрузки:</strong> загрузи фото сразу пачкой ниже, или открой любую работу и нажми <strong>«+ Добавить фото / ракурсы»</strong>, чтобы прикрепить к одному проекту сразу несколько кадров.</li>
+          </ol>
+          <div class="pt-1 flex flex-wrap items-center justify-between gap-2">
+            <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink text-paper hover:bg-accent font-mono text-xs font-bold transition-colors">
+              <span>↑ Выбрать сразу несколько фото</span>
+              <input id="multi-file-input" type="file" accept="image/*" multiple class="hidden" />
+            </label>
+            <button type="button" id="clear-saved-photos" class="px-3 py-2 rounded-xl border border-ink/20 font-mono text-xs hover:bg-accent hover:text-white hover:border-accent transition-colors">
+              очистить сохранённые
+            </button>
+          </div>
+        </div>
+        <div id="bulk-upload-list" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // =========================================================================
+    // 1. БАЗА ПРОЕКТОВ (ВСЕ 18 РЕАЛЬНЫХ РАБОТ ЛЕНЫ МИРОНОВОЙ)
+    // =========================================================================
+    const projects = [
+      {
+        id: 'stereofest',
+        num: 'N°001',
+        title: 'STEREO fest — У моря!',
+        category: 'expo',
+        categoryLabel: 'Наружная реклама / OOH',
+        client: 'Музыкальный фестиваль STEREO fest',
+        format: 'Билборд 6×3 м (Сочи)',
+        year: '2026',
+        role: 'Концепт, ключевой визуал, OOH-носители',
+        filename: 'мокап.jpg',
+        palette: ['#D4FF2A', '#FF2E93', '#161616', '#FFFFFF'],
+        aspect: 'md:col-span-7',
+        deskRot: '-rotate-2',
+        desc: 'Яркий ночной билборд для главного музыкального фестиваля в Сочи. Контраст глубокого чёрного фона, кислотно-лаймовой типографики и неоново-розового заката с пальмами работает на мгновенное считывание даже с проезжающего автомобиля.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#121213] p-5 sm:p-7 flex flex-col justify-between relative overflow-hidden text-white select-none">
+            <div class="grid grid-cols-12 gap-3 h-[82%] items-center">
+              <!-- Розовая карточка с пальмами -->
+              <div class="col-span-4 h-full rounded-lg bg-gradient-to-b from-[#FF2E93] via-[#F24B88] to-[#FFA07A] relative overflow-hidden flex items-end justify-center p-2">
+                <svg viewBox="0 0 100 120" class="w-full h-full opacity-85" fill="#1A0B14">
+                  <path d="M35 120 Q42 75 50 45 Q45 42 40 46 Q35 75 26 120 Z"/>
+                  <path d="M50 45 Q25 30 12 42 Q30 42 45 48 Z"/>
+                  <path d="M50 45 Q30 15 18 18 Q35 28 48 44 Z"/>
+                  <path d="M50 45 Q55 15 72 18 Q58 30 52 45 Z"/>
+                  <path d="M50 45 Q78 30 88 46 Q70 42 53 48 Z"/>
+                  <path d="M72 120 Q74 85 78 65 Q74 63 70 67 Q66 88 64 120 Z"/>
+                  <path d="M78 65 Q58 55 48 64 Q64 64 75 68 Z"/>
+                  <path d="M78 65 Q92 52 100 62 Q88 62 79 68 Z"/>
+                </svg>
+              </div>
+              <!-- Логотип STEREO fest -->
+              <div class="col-span-5 flex flex-col items-center justify-center leading-none">
+                <div class="font-display font-extrabold text-3xl sm:text-4xl tracking-tighter text-[#D4FF2A] scale-y-125">STEREO</div>
+                <div class="font-serif italic font-bold text-4xl sm:text-5xl text-[#FF2E93] -mt-3">fest</div>
+              </div>
+              <!-- Правый текст -->
+              <div class="col-span-3 text-right font-sans text-[8px] sm:text-[10px] leading-tight font-semibold uppercase tracking-wide">
+                <div class="opacity-90">Главный<br/>музыкальный<br/>фестиваль<br/>— теперь</div>
+                <div class="text-[#D4FF2A] italic mt-1">У МОРЯ!</div>
+              </div>
+            </div>
+            <!-- Нижняя неоновая плашка -->
+            <div class="bg-[#D4FF2A] text-[#121213] px-3 py-1.5 rounded-sm font-mono text-[9px] sm:text-[10px] font-bold flex items-center justify-between">
+              <span>СОЧИ | 5–7 АВГУСТА | 2027</span>
+              <span class="hidden sm:inline">STEREOFEST.COM</span>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'calendar2027',
+        num: 'N°002',
+        title: 'Ботанический календарь 2027',
+        category: 'print',
+        categoryLabel: 'Полиграфия / Иллюстрация',
+        client: 'Авторский проект',
+        format: 'Плакат-календарь A2',
+        year: '2026',
+        role: 'Векторная иллюстрация, вёрстка сетки',
+        filename: 'календарь.png',
+        palette: ['#F6A8C1', '#959B65', '#ECA73A', '#3B3A10'],
+        aspect: 'md:col-span-5',
+        deskRot: 'rotate-2',
+        desc: 'Настенный годовой календарь на 2027 год с модульной ботанической композицией. Тёплая природная палитра (пыльно-розовый, оливковый, горчичный и кремовый) сбалансирована чистой и легко читаемой календарной сеткой.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#FAFAF7] grid grid-cols-12 overflow-hidden select-none">
+            <!-- Левая декоративная сетка -->
+            <div class="col-span-7 grid grid-cols-3 grid-rows-4">
+              <div class="bg-[#F6A8C1] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><path d="M10 50 Q10 10 50 10 Q50 50 10 50Z" fill="#8C945B"/><path d="M12 48 L46 14" stroke="#3B3A10" stroke-width="2.5"/></svg>
+              </div>
+              <div class="bg-[#959B65] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><circle cx="24" cy="28" r="10" fill="#E3DAC3"/><circle cx="36" cy="26" r="12" fill="#E3DAC3"/><circle cx="30" cy="18" r="9" fill="#E3DAC3"/><circle cx="22" cy="46" r="2.5" fill="#E3DAC3"/><circle cx="32" cy="49" r="2.5" fill="#E3DAC3"/><circle cx="42" cy="45" r="2.5" fill="#E3DAC3"/></svg>
+              </div>
+              <div class="bg-[#F6A8C1] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><path d="M18 14 L24 24 L30 12 L36 24 L42 14 L42 32 Q30 44 18 32 Z" fill="#E3DAC3"/><rect x="28" y="36" width="4" height="16" fill="#959B65"/></svg>
+              </div>
+              <div class="bg-[#ECA73A] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><circle cx="30" cy="24" r="12" fill="#E3DAC3"/><circle cx="30" cy="24" r="4" fill="#ECA73A"/><path d="M30 36 Q16 36 16 48 Q30 48 30 36 Z" fill="#959B65"/><path d="M30 36 Q44 36 44 48 Q30 48 30 36 Z" fill="#959B65"/></svg>
+              </div>
+              <div class="bg-[#3B3A10] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><ellipse cx="22" cy="22" rx="10" ry="5" transform="rotate(45 22 22)" fill="#F6A8C1"/><ellipse cx="38" cy="22" rx="10" ry="5" transform="rotate(-45 38 22)" fill="#F6A8C1"/><ellipse cx="22" cy="38" rx="10" ry="5" transform="rotate(-45 22 38)" fill="#F6A8C1"/><ellipse cx="38" cy="38" rx="10" ry="5" transform="rotate(45 38 38)" fill="#F6A8C1"/></svg>
+              </div>
+              <div class="bg-[#E3DAC3] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><circle cx="30" cy="30" r="9" fill="#F6A8C1"/><circle cx="30" cy="30" r="16" fill="none" stroke="#3B3A10" stroke-width="2" stroke-dasharray="3 4"/></svg>
+              </div>
+              <div class="bg-[#3B3A10] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><circle cx="30" cy="30" r="8" fill="#F6A8C1"/><circle cx="30" cy="30" r="15" fill="none" stroke="#F6A8C1" stroke-width="2" stroke-dasharray="2 5"/></svg>
+              </div>
+              <div class="bg-[#F6A8C1] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><path d="M10 30 Q30 12 50 30 Q30 48 10 30Z" fill="#3B3A10"/></svg>
+              </div>
+              <div class="bg-[#ECA73A] flex items-center justify-center p-2">
+                <svg viewBox="0 0 60 60" class="w-10 h-10"><circle cx="24" cy="28" r="9" fill="#3B3A10"/><circle cx="36" cy="27" r="11" fill="#3B3A10"/><circle cx="30" cy="20" r="8" fill="#3B3A10"/></svg>
+              </div>
+              <div class="col-span-3 bg-[#959B65] flex items-center justify-center font-display font-extrabold text-3xl sm:text-4xl text-[#E3DAC3] tracking-wider">
+                2027
+              </div>
+            </div>
+            <!-- Правая календарная сетка -->
+            <div class="col-span-5 p-3 grid grid-cols-2 gap-1.5 text-[#141413]">
+              ${['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август'].map(m => `
+                <div class="border border-ink/15 p-1.5 rounded-sm flex flex-col justify-between bg-white">
+                  <div class="font-sans font-bold text-[7px] text-center border-b border-ink/10 pb-0.5">${m}</div>
+                  <div class="grid grid-cols-7 gap-0.5 mt-1">
+                    ${Array.from({length: 14}).map((_, i) => `<span class="h-1 rounded-full ${(i+1)%7===0 ? 'bg-red-500' : 'bg-ink/25'}"></span>`).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'museum-rollup',
+        num: 'N°003',
+        title: 'Музей Пермских Древностей',
+        category: 'expo',
+        categoryLabel: 'Выставочная графика',
+        client: 'Музей Пермских Древностей',
+        format: 'Ролл-ап 85×200 см',
+        year: '2026',
+        role: 'Афиша, иллюстрация, выставочный стенд',
+        filename: 'rol up.jpg',
+        palette: ['#7C1C1C', '#CFA144', '#1E1916', '#F4F3F1'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-1',
+        desc: 'Оформление ролл-апа для новой экспозиции «Мир до нас: 650 миллионов лет истории жизни». Благородное сочетание глубокого бордового, состаренного золота и фольклорно-растительного орнамента подчёркивает масштаб древней истории Прикамья.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#ECEEEF] flex items-center justify-center p-5 select-none relative overflow-hidden">
+            <!-- Стенд ролл-апа -->
+            <div class="w-[62%] h-full bg-[#F7F6F4] rounded-md shadow-xl border-t-4 border-b-8 border-zinc-400 flex flex-col items-center justify-between p-4 relative overflow-hidden text-center">
+              <div class="flex items-center gap-1.5 self-start text-[7px] font-bold text-[#7C1C1C] leading-tight text-left">
+                <div class="w-4 h-4 rounded-sm border border-[#7C1C1C] flex items-center justify-center text-[8px]">❖</div>
+                <span>МУЗЕЙ<br/>ПЕРМСКИХ<br/>ДРЕВНОСТЕЙ</span>
+              </div>
+              <div class="mt-1">
+                <div class="inline-block bg-[#7C1C1C] text-white text-[7px] font-mono px-2.5 py-0.5 rounded-full">НОВАЯ ЭКСПОЗИЦИЯ</div>
+                <div class="font-display font-extrabold text-lg sm:text-xl text-[#CFA144] leading-none mt-2">МИР<br/>ДО НАС</div>
+                <div class="text-[7px] font-mono text-zinc-600 mt-1">650 МИЛЛИОНОВ ЛЕТ</div>
+              </div>
+              <!-- Векторный силуэт мамонта -->
+              <svg viewBox="0 0 140 90" class="w-32 h-24 my-1" fill="#7C1C1C">
+                <path d="M22 76 L26 48 Q30 22 58 20 Q80 18 94 32 Q104 42 104 58 Q112 68 124 62 Q132 58 134 48 Q136 66 122 72 Q108 78 96 68 L90 78 L76 78 L78 58 Q64 56 54 60 L56 78 L42 78 L42 62 L32 76 Z"/>
+                <path d="M88 42 Q104 52 122 46" fill="none" stroke="#F7F6F4" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <div class="w-full border-t border-[#CFA144] pt-1.5 text-[7px] font-mono text-zinc-700 flex justify-between">
+                <span>25 ДЕКАБРЯ</span>
+                <span>10:00–18:00</span>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'cat-expo',
+        num: 'N°004',
+        title: 'Выставка кошек — Пермь Экспо',
+        category: 'posters',
+        categoryLabel: 'Афиша / Плакат',
+        client: 'Пермь Экспо',
+        format: 'Плакат A1 / Сити-формат',
+        year: '2026',
+        role: 'Графический дизайн, типографика',
+        filename: 'plakat cat.jpg',
+        palette: ['#151517', '#FF2E93', '#FFD23F', '#2EE6C5'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-3',
+        desc: 'Контрастный плакат для выставки кошек в выставочном центре «Пермь Экспо». Лаконичный силуэт кошки, залитый сочным радужным градиентом на матовом чёрном фоне, создаёт праздничное настроение и выделяется в бетонном интерьере.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#D2CFC8] flex items-center justify-center p-5 select-none">
+            <div class="w-[74%] h-full bg-[#141416] border-[6px] border-[#262628] shadow-2xl p-4 flex flex-col items-center justify-between text-white relative overflow-hidden">
+              <div class="self-end font-mono text-[7px] opacity-60 text-right">пермь<br/>экспо</div>
+              <div class="text-center">
+                <div class="font-sans tracking-widest text-sm sm:text-base font-light">ВЫСТАВКА</div>
+                <div class="font-display font-extrabold text-xl sm:text-2xl bg-gradient-to-r from-[#FFD23F] via-[#FF2E93] to-[#2EE6C5] bg-clip-text text-transparent -mt-1">кошек</div>
+              </div>
+              <svg viewBox="0 0 120 100" class="w-28 h-24">
+                <defs>
+                  <linearGradient id="catGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FFE047"/>
+                    <stop offset="35%" stop-color="#FF3B8D"/>
+                    <stop offset="70%" stop-color="#7A5CFF"/>
+                    <stop offset="100%" stop-color="#2EE6C5"/>
+                  </linearGradient>
+                </defs>
+                <path d="M22 20 L42 36 Q60 30 78 36 L98 20 Q102 48 92 68 Q78 88 60 88 Q42 88 28 68 Q18 48 22 20 Z" fill="url(#catGrad)"/>
+              </svg>
+              <div class="w-full flex justify-between font-mono text-[7px] opacity-75">
+                <span>2–3 декабря</span>
+                <span>10:00–17:00</span>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'actora',
+        num: 'N°005',
+        title: 'ACTORA — Школа актёрства',
+        category: 'posters',
+        categoryLabel: 'Серия плакатов',
+        client: 'Курсы актёрского мастерства ACTORA',
+        format: 'Триптих A3',
+        year: '2026',
+        role: 'Швейцарская вёрстка, серия афиш',
+        filename: 'image_75c68a2.jpg',
+        palette: ['#1385C9', '#F4F5F7', '#1C1D1F', '#A3A8AE'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-2',
+        desc: 'Серия из трёх плакатов для курсов актёрского мастерства. Построена на принципах швейцарской типографики: строгая модульная сетка, динамичные ч/б фотографии пластики тела и единый цветовой якорь — чистый синий.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#DCE0E3] flex items-center justify-center gap-2.5 p-5 select-none">
+            <!-- Лист 1 -->
+            <div class="w-1/3 h-[76%] bg-[#F6F7F8] shadow-md p-2 flex flex-col justify-between text-[#1C1D1F]">
+              <div class="flex justify-between">
+                <div class="text-[6px] font-bold text-[#1385C9] [writing-mode:vertical-rl] rotate-180">Актёрское мастерство</div>
+                <div class="text-[5px] text-right opacity-70">2 месяца<br/>20 000 ₽</div>
+              </div>
+              <div class="h-14 bg-zinc-300 rounded-sm overflow-hidden flex items-end justify-center">
+                <div class="w-8 h-10 bg-zinc-700 rounded-t-full opacity-80"></div>
+              </div>
+              <div class="h-3 bg-[#1385C9] rounded-xs"></div>
+            </div>
+            <!-- Лист 2 -->
+            <div class="w-1/3 h-[76%] bg-[#F6F7F8] shadow-md flex overflow-hidden text-[#1C1D1F]">
+              <div class="w-3/4 p-2 flex flex-col justify-between">
+                <div class="font-bold text-[8px] leading-tight">Курсы<br/>актёрского<br/>мастерства</div>
+                <div class="space-y-1">
+                  <div class="h-1 w-8 bg-[#1385C9]"></div>
+                  <div class="h-1 w-6 bg-[#1385C9]"></div>
+                </div>
+                <div class="h-12 bg-zinc-300 rounded-sm"></div>
+              </div>
+              <div class="w-1/4 bg-[#1385C9]"></div>
+            </div>
+            <!-- Лист 3 -->
+            <div class="w-1/3 h-[76%] bg-[#F6F7F8] shadow-md flex overflow-hidden text-[#1C1D1F]">
+              <div class="w-1/3 bg-zinc-300"></div>
+              <div class="w-3 bg-[#1385C9] text-white text-[5px] flex items-center justify-center font-bold [writing-mode:vertical-rl] rotate-180">АКТЁРСТВО</div>
+              <div class="flex-1 p-1.5 flex flex-col justify-between text-[5px]">
+                <div class="font-semibold">от 18 лет</div>
+                <div class="space-y-1 opacity-70">
+                  <div>2 месяца</div>
+                  <div>10 чел.</div>
+                  <div>20 тыс.</div>
+                </div>
+                <div class="font-serif font-bold text-[9px]">A</div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'art-expo',
+        num: 'N°006',
+        title: 'Художественная выставка',
+        category: 'posters',
+        categoryLabel: 'Диптих афиш',
+        client: 'Пермь Экспо',
+        format: 'Афиши A4 / A2 (2 концепции)',
+        year: '2026',
+        role: 'Два варианта арт-дирекшна и вёрстки',
+        filename: 'plakat_a4_мокап.jpg',
+        palette: ['#E85D1A', '#A8DADC', '#111111', '#C4D7E8'],
+        aspect: 'md:col-span-5',
+        deskRot: 'rotate-1',
+        desc: 'Диптих афиш для выставки русской живописи (Шишкин, Репин, Куинджи, Левитан и мастера авангарда). Показаны два разных подхода: лёгкий мятно-оранжевый с цветной репродукцией и смелый монохромный с крупным гротеском.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#CFCAC2] flex items-center justify-center gap-4 p-5 select-none">
+            <!-- Афиша 1 -->
+            <div class="w-[44%] h-[84%] bg-white border-[4px] border-zinc-700 shadow-lg grid grid-cols-12 overflow-hidden">
+              <div class="col-span-8 p-2 flex flex-col justify-between">
+                <div class="text-[5px] font-mono opacity-50">ПЕРМЬЭКСПО</div>
+                <div class="font-display font-bold text-[8px] text-[#E85D1A] leading-tight">ХУДОЖЕСТВЕННАЯ<br/>ВЫСТАВКА</div>
+                <div class="text-[5px] text-zinc-600 leading-tight">Крамского<br/>Репина<br/>Шишкина</div>
+              </div>
+              <div class="col-span-4 bg-[#A8DADC] flex flex-col justify-between p-1.5">
+                <div class="text-[6px] font-bold text-[#E85D1A] mt-6">02.11<br/>2026</div>
+                <div class="h-16 bg-gradient-to-b from-[#6B7F4E] to-[#3B4229] rounded-xs"></div>
+              </div>
+            </div>
+            <!-- Афиша 2 -->
+            <div class="w-[44%] h-[84%] bg-white border-[4px] border-zinc-700 shadow-lg flex flex-col justify-between overflow-hidden">
+              <div class="p-2 font-sans font-black text-[9px] leading-none tracking-tight text-black">ХУДОЖЕСТВЕННАЯ<br/>ВЫСТАВКА</div>
+              <div class="flex-1 bg-zinc-400 p-2 flex items-center">
+                <div class="bg-[#C4D7E8] text-black text-[5px] px-1 py-0.5 font-medium">Крамской • Шишкин • Авангард</div>
+              </div>
+              <div class="p-2 text-right font-sans font-bold text-[8px] leading-tight text-black">02.11.2026<br/>10:00 — 18:00</div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'syuzhet',
+        num: 'N°007',
+        title: 'Кафе живых квестов «СЮЖЕТ.»',
+        category: 'print',
+        categoryLabel: 'Полиграфия / Буклет',
+        client: 'Кафе живых квестов «СЮЖЕТ.»',
+        format: 'Буклет-меню (евроформат / лифлет)',
+        year: '2026',
+        role: 'Редакционная вёрстка, концепция, типографика',
+        filename: 'Gemini_Generated_Image_21j3i521j3i521j3.jpg',
+        palette: ['#D9261C', '#141413', '#F4EFE4', '#D6D0C4'],
+        aspect: 'md:col-span-7',
+        deskRot: '-rotate-2',
+        desc: 'Дизайн буклета «Меню эмоций» для кафе живых квестов. Смелая авангардная типографика, растровый точечный паттерн, тёплая кремовая бумага и драматичное сочетание чёрного и алого создают атмосферу детектива «Последний тост мафии».',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#ECE8E0] p-5 flex items-center justify-center relative overflow-hidden select-none">
+            <!-- Задний буклет -->
+            <div class="w-[54%] h-[82%] bg-[#F6F2E8] shadow-xl rounded-sm -rotate-6 translate-x-10 -translate-y-2 p-4 flex flex-col justify-between border border-ink/10 text-ink">
+              <div class="font-display font-black text-[10px] leading-tight">ИГРАЕМ.<br/><span class="text-[#D9261C]">ОТДЫХАЕМ.</span></div>
+              <div class="self-end text-right">
+                <div class="font-display font-black text-2xl sm:text-3xl leading-[0.85] tracking-tighter">СЮ<br/>ЖЕТ<span class="text-[#D9261C]">.</span></div>
+              </div>
+              <div class="font-mono text-[7px] opacity-60">ФОРМАТ №2 / МЕНЮ ЭМОЦИЙ</div>
+            </div>
+            <!-- Передний разворот -->
+            <div class="w-[58%] h-[80%] bg-[#F4EFE4] shadow-2xl rounded-sm rotate-6 -translate-x-10 translate-y-3 p-4 flex flex-col justify-between border border-ink/15 text-ink absolute left-10">
+              <div class="flex justify-between items-start">
+                <span class="bg-[#D9261C] text-white font-mono text-[7px] px-2 py-0.5">ЖАНР: ДЕТЕКТИВ</span>
+                <span class="font-mono text-[7px] opacity-50">/ 02. СЮЖЕТ</span>
+              </div>
+              <div class="my-auto">
+                <div class="font-display font-extrabold text-xs sm:text-sm leading-tight">ПОСЛЕДНИЙ ТОСТ<br/>МАФИИ</div>
+                <div class="mt-2 border border-ink p-1.5 font-mono text-[6px] leading-snug">
+                  ВНИМАНИЕ К ДЕТАЛЯМ: Шифр от сейфа спрятан на дне бокала...
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 border-t-2 border-[#D9261C] pt-1.5 font-mono text-[6px]">
+                <div>1000 ₽</div>
+                <div>2 часа</div>
+                <div>До 10 чел</div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'chocolate-egg',
+        num: 'N°008',
+        title: '«Какао & Ягоды» — Пасхальное яйцо',
+        category: 'packaging',
+        categoryLabel: 'Дизайн упаковки',
+        client: 'Шоколадная мастерская «Какао & Ягоды»',
+        format: 'Подарочная коробка с фигурным замком',
+        year: '2026',
+        role: 'Конструктив, дизайн упаковки, типографика',
+        filename: 'image_1190bfae.jpg',
+        palette: ['#F3C6D3', '#DCE8C6', '#4A2C21', '#B8294A'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-2',
+        desc: 'Нежная подарочная упаковка для пасхального шоколадного яйца ручной работы с фисташкой и лесными ягодами. Фигурный верх в виде распустившихся пастельных лепестков делает коробку самостоятельным подарком.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#ECEBE7] flex items-center justify-center p-5 select-none">
+            <div class="relative flex flex-col items-center">
+              <!-- Лепестки сверху -->
+              <div class="flex items-end -mb-2 z-10">
+                <div class="w-9 h-9 rounded-t-full bg-[#EAB6C4] -rotate-12 border border-black/5"></div>
+                <div class="w-9 h-10 rounded-t-full bg-[#DCE6C3] rotate-12 -ml-3 border border-black/5"></div>
+              </div>
+              <!-- Коробка -->
+              <div class="w-36 h-44 rounded-lg bg-gradient-to-br from-[#F9ECEF] via-[#FAF9F2] to-[#E9F1DC] shadow-xl border border-black/10 p-3 flex flex-col items-center justify-between text-center">
+                <div class="text-[6px] font-mono uppercase tracking-wider text-[#4A2C21]/70">Какао & Ягоды</div>
+                <!-- Шоколадное яйцо -->
+                <div class="w-16 h-20 rounded-[50%_50%_50%_50%/60%_60%_40%_40%] bg-gradient-to-br from-[#5A3628] to-[#2C1710] shadow-md relative overflow-hidden flex items-start justify-center pt-2">
+                  <div class="w-10 h-8 rounded-full bg-[#3A2016] flex flex-wrap gap-0.5 items-center justify-center p-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#9CC44B]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#D92B5A]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#F2C94C]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#D92B5A]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#9CC44B]"></span>
+                  </div>
+                </div>
+                <div>
+                  <div class="font-serif italic font-bold text-xs text-[#7A2036]">Пасхальное яйцо</div>
+                  <div class="text-[6px] text-[#4A2C21]/70">Тёмный шоколад • 120 г</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'kamskie-luga',
+        num: 'N°009',
+        title: '«Камские Луга» — Молоко',
+        category: 'packaging',
+        categoryLabel: 'Дизайн упаковки',
+        client: 'Фермерские хозяйства Прикамья',
+        format: 'Тетрапак Pure-Pak 1 л',
+        year: '2026',
+        role: 'Упаковка, линейная графика, типографика',
+        filename: 'image_adabbcf1.jpg',
+        palette: ['#4A89DC', '#C4A482', '#F8F9FA', '#1B3B6F'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-2',
+        desc: 'Эко-упаковка для локального фермерского молока. Сочетание натурального крафтового верха с волной «стекающего» молока, дружелюбного гротеска и тонкой синей иллюстрации пастбищ создаёт ощущение честного фермерского продукта.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#E5E8EC] flex items-center justify-center p-5 select-none">
+            <div class="w-32 h-48 rounded-md shadow-xl overflow-hidden flex flex-col border border-black/10 bg-[#FAFAFA]">
+              <!-- Крафтовая крыша -->
+              <div class="h-12 bg-[#C4A482] relative flex items-center justify-center">
+                <div class="w-14 h-full bg-[#4A89DC] text-white text-[6px] font-bold flex items-center justify-center text-center leading-tight px-1">
+                  КАМСКИЕ<br/>ЛУГА
+                </div>
+              </div>
+              <!-- Волна -->
+              <svg viewBox="0 0 120 14" class="w-full -mt-1" preserveAspectRatio="none">
+                <path d="M0 0 H120 V4 Q105 14 90 4 Q75 -2 60 6 Q45 14 30 4 Q15 -2 0 6 Z" fill="#C4A482"/>
+              </svg>
+              <!-- Основная часть -->
+              <div class="flex-1 p-2.5 flex flex-col justify-between items-center text-center">
+                <div>
+                  <div class="font-display font-extrabold text-base text-[#4A89DC] tracking-tight">МОЛОКО</div>
+                  <div class="text-[6px] text-zinc-600">питьевое пастеризованное</div>
+                </div>
+                <div class="w-full flex justify-between px-1 font-display font-bold text-[10px] text-[#4A89DC]">
+                  <span>1 л</span>
+                  <span>3,2%</span>
+                </div>
+                <!-- Синяя графика пейзажа -->
+                <svg viewBox="0 0 120 40" class="w-full h-10" fill="none" stroke="#1B3B6F" stroke-width="1.4">
+                  <path d="M0 32 Q30 12 60 28 T120 22"/>
+                  <path d="M10 38 Q50 24 90 36 T120 32"/>
+                  <rect x="18" y="24" width="12" height="7" rx="2" fill="#1B3B6F"/>
+                  <circle cx="82" cy="14" r="4"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'smeg-stand',
+        num: 'N°010',
+        title: 'SMEG × Porsche — Выставочный стенд',
+        category: 'expo',
+        categoryLabel: 'Выставочный стенд',
+        client: 'SMEG Russia',
+        format: 'Угловой павильон 3×4 м',
+        year: '2026',
+        role: 'Оформление стенда, графика панелей, навигация',
+        filename: 'Mokup_stend.jpg',
+        palette: ['#141414', '#A8CBB7', '#C82829', '#F2F2F0'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-1',
+        desc: 'Комплексное графическое оформление выставочного стенда SMEG. Объединяет эстетику итальянского ретро-стиля (пастельные чайники и тостеры) и дерзкую лимитированную коллаборацию Porsche × SMEG на строгом чёрном фризе.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#EFEFEF] flex items-center justify-center p-5 select-none">
+            <div class="w-full h-[82%] bg-white rounded-xl shadow-xl border border-zinc-300 overflow-hidden flex flex-col">
+              <!-- Чёрный фриз -->
+              <div class="bg-[#141414] text-white px-4 py-2.5 flex items-center justify-between">
+                <span class="font-display font-extrabold text-sm tracking-tight">smeg</span>
+                <span class="font-mono text-[8px] opacity-75">italian style • since 1948</span>
+              </div>
+              <!-- Зоны стенда -->
+              <div class="flex-1 grid grid-cols-12">
+                <!-- Левая пастельная стена -->
+                <div class="col-span-5 bg-[#F5F6F5] p-3 flex flex-col justify-between border-r border-zinc-200">
+                  <div class="text-[7px] font-bold leading-tight text-zinc-800">Итальянский стиль,<br/>созданный для вас</div>
+                  <div class="flex items-end gap-1.5">
+                    <div class="w-9 h-10 rounded-t-2xl rounded-b-md bg-[#A8CBB7] border border-black/10"></div>
+                    <div class="w-8 h-7 rounded-t-xl rounded-b-sm bg-[#F4B6C2] border border-black/10"></div>
+                  </div>
+                </div>
+                <!-- Центральная стойка -->
+                <div class="col-span-4 bg-white flex flex-col justify-end border-r border-zinc-200">
+                  <div class="h-1/2 bg-[#141414] text-white p-2.5 flex flex-col justify-between">
+                    <div class="font-display font-bold text-[10px]">smeg</div>
+                    <div class="font-mono text-[6px] opacity-70">smeg.ru<br/>Москва</div>
+                  </div>
+                </div>
+                <!-- Правая зона Porsche -->
+                <div class="col-span-3 bg-gradient-to-b from-[#B82527] to-[#7D1819] p-2 flex flex-col items-center justify-center text-white">
+                  <div class="w-7 h-7 rounded-full bg-white text-[#B82527] font-display font-extrabold text-[9px] flex items-center justify-center">23</div>
+                  <div class="font-mono text-[6px] mt-1.5 tracking-widest">PORSCHE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'bushe-brandbook',
+        num: 'N°011',
+        title: '«Буше» — Брендбук пекарни',
+        category: 'branding',
+        categoryLabel: 'Айдентика / Брендбук',
+        client: 'Сеть кафе-пекарен «Буше»',
+        format: 'Руководство по фирменному стилю (14 стр.)',
+        year: '2026',
+        role: 'Логотип, фирменный знак, гайдлайн, носители',
+        filename: 'Mironova_brendbuk.pdf',
+        palette: ['#F1C6A7', '#101820', '#F7EFE7', '#D9A784'],
+        aspect: 'md:col-span-7',
+        deskRot: '-rotate-1',
+        desc: 'Полное руководство по фирменному стилю петербургской сети кафе-пекарен «Буше». В основе знака — тёплая стилизованная форма московской плюшки (в виде сердца) в нежном персиково-розовом оттенке Pantone 474 C, дополненная дружелюбным рукописным начертанием, правилами охранного поля, шрифтовой парой, пакетами и меню.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#F5EDE5] p-5 flex items-center justify-center gap-4 relative overflow-hidden select-none">
+            <!-- Левая карточка: логотип и охранное поле -->
+            <div class="w-[54%] h-[86%] bg-white rounded-xl shadow-lg border border-black/5 p-4 flex flex-col justify-between">
+              <div class="flex justify-between items-center font-mono text-[7px] text-[#101820]/60">
+                <span>БРЕНДБУК • 14 СТР.</span>
+                <span>PANTONE 474 C</span>
+              </div>
+              <div class="border border-dashed border-[#101820]/25 rounded-lg p-3 flex items-center justify-center gap-2">
+                <!-- Знак плюшки-сердца -->
+                <svg viewBox="0 0 60 60" class="w-9 h-9 shrink-0" fill="none" stroke="#F1C6A7" stroke-width="5" stroke-linecap="round">
+                  <path d="M30 50 C14 40 8 24 16 14 C22 8 28 16 30 24 C32 16 38 8 44 14 C52 24 46 40 30 50 Z"/>
+                  <path d="M30 42 C20 35 16 25 21 19 C25 16 28 22 30 28 C32 22 35 16 39 19 C44 25 40 35 30 42 Z" stroke-width="3"/>
+                </svg>
+                <span class="font-serif italic font-bold text-3xl sm:text-4xl text-[#101820] tracking-tight leading-none">буше</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#F1C6A7] border border-black/10"></span>
+                <span class="w-5 h-5 rounded-full bg-[#101820]"></span>
+                <span class="font-mono text-[7px] text-[#101820]/60 ml-auto">Segoe Print + Candara</span>
+              </div>
+            </div>
+            <!-- Правая карточка: крафт-пакет -->
+            <div class="w-[38%] h-[82%] flex flex-col items-center justify-end">
+              <div class="w-12 h-5 border-2 border-[#B88B58] rounded-t-full -mb-1"></div>
+              <div class="w-full flex-1 bg-gradient-to-b from-[#F2E3D5] to-[#E6D2BE] rounded-md shadow-xl border border-black/10 p-3 flex flex-col items-center justify-center relative overflow-hidden">
+                <div class="font-serif italic font-bold text-xl text-[#101820]">буше</div>
+                <svg viewBox="0 0 60 60" class="w-16 h-16 absolute -bottom-4 -right-3 opacity-80" fill="none" stroke="#E7B38E" stroke-width="5">
+                  <path d="M30 50 C14 40 8 24 16 14 C22 8 28 16 30 24 C32 16 38 8 44 14 C52 24 46 40 30 50 Z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'pizza-branding',
+        num: 'N°012',
+        title: 'PIZZA — Айдентика пиццерии',
+        category: 'branding',
+        categoryLabel: 'Айдентика / Брендинг',
+        client: 'Пиццерия PIZZA (Пермь)',
+        format: 'Концепт айдентики, паттерн, носители',
+        year: '2026',
+        role: 'Анализ конкурентов, мудборд, логотип, упаковка',
+        filename: 'Миронова.pdf',
+        palette: ['#146B47', '#E08A38', '#F5EFE1', '#0B3524'],
+        aspect: 'md:col-span-5',
+        deskRot: 'rotate-2',
+        desc: 'Свежий минималистичный брендинг для современной пиццерии. Отказ от привычных красно-жёлтых штампов в пользу сочного цвета базилика и тёплого сырного оранжевого. В проект вошли линейный знак-кусочек пиццы, фирменный паттерн, коробка, стаканчик и визитка.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#F5EFE1] p-5 grid grid-cols-12 gap-3 select-none">
+            <!-- Главный блок с лого -->
+            <div class="col-span-7 bg-[#FAF6EC] rounded-2xl border border-[#146B47]/15 p-4 flex flex-col items-center justify-center shadow-sm">
+              <svg viewBox="0 0 80 80" class="w-16 h-16 mb-1" fill="none" stroke="#146B47" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 62 Q10 38 22 18"/>
+                <path d="M26 22 L64 42 L26 60 Q20 40 26 22 Z"/>
+                <circle cx="38" cy="37" r="4"/>
+                <circle cx="46" cy="48" r="3.5"/>
+              </svg>
+              <div class="font-display font-extrabold text-2xl text-[#E08A38] tracking-tight">PIZZA</div>
+              <div class="font-mono text-[7px] text-[#146B47] mt-1">г. Пермь • 10:00–22:00</div>
+            </div>
+            <!-- Правая колонка: стакан + паттерн -->
+            <div class="col-span-5 flex flex-col gap-3">
+              <div class="flex-1 bg-[#146B47] rounded-2xl p-3 flex flex-col items-center justify-center text-[#F5EFE1] shadow-sm">
+                <div class="w-10 h-1.5 bg-[#FAF6EC] rounded-full mb-1"></div>
+                <div class="font-display font-bold text-xs tracking-wider">PIZZA</div>
+                <div class="font-mono text-[6px] opacity-70 mt-0.5">COFFEE & SLICE</div>
+              </div>
+              <div class="h-16 bg-white rounded-2xl border border-black/5 p-2 flex items-center justify-around">
+                <span class="w-5 h-5 rounded-full bg-[#146B47]"></span>
+                <span class="w-5 h-5 rounded-full bg-[#E08A38]"></span>
+                <span class="w-5 h-5 rounded-full bg-[#F5EFE1] border border-black/15"></span>
+                <span class="w-5 h-5 rounded-full bg-[#0B3524]"></span>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'oklaris-drops',
+        num: 'N°013',
+        title: '«ОКЛАРИС» — Капли для глаз',
+        category: 'packaging',
+        categoryLabel: 'Фарма-упаковка',
+        client: 'Офтальмологический препарат «Окларис»',
+        format: 'Картонная пачка (10 мл)',
+        year: '2026',
+        role: 'Дизайн фарм-упаковки, вёрстка состава',
+        filename: 'image_b6315c98.jpg',
+        palette: ['#8B8EC9', '#00B8D4', '#F5F6F8', '#141414'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-2',
+        desc: 'Чистая, современная медицинская упаковка для глазных капель. Вертикальный логотип в спокойном лавандовом оттенке и мягкий размытый градиент-овал визуально передают метафору ясного взгляда и бережного фокуса.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#E4E6E8] flex items-center justify-center p-5 select-none">
+            <!-- Пачка 3D-эффект -->
+            <div class="flex h-[88%] shadow-2xl rounded-sm overflow-hidden">
+              <!-- Боковая грань с составом -->
+              <div class="w-12 bg-[#DCDFE2] p-1.5 flex flex-col justify-between text-[4.5px] text-zinc-700 leading-tight border-r border-black/10">
+                <div>
+                  <div class="font-bold">Состав на 1 мл:</div>
+                  <div class="mt-0.5 opacity-75">фенилэфрин 50 мг<br/>тропикамид 8 мг</div>
+                </div>
+                <div class="h-2.5 bg-[#009BB5] -mx-1.5 -mb-1.5"></div>
+              </div>
+              <!-- Лицевая грань -->
+              <div class="w-32 bg-[#F9FAFB] p-3 flex flex-col justify-between relative overflow-hidden">
+                <div class="flex items-start justify-between flex-1">
+                  <div class="font-display font-semibold text-sm tracking-widest text-[#8B8EC9] [writing-mode:vertical-rl] rotate-180">ОКЛАРИС</div>
+                  <!-- Мягкая «радужка» градиент -->
+                  <div class="w-16 h-28 rounded-full bg-[radial-gradient(ellipse_at_center,_#F4D9C6_0%,_#8B8EC9_48%,_#4CC9E6_78%,_transparent_100%)] blur-[2px] opacity-90 -mr-2 mt-1"></div>
+                </div>
+                <div class="mt-2">
+                  <div class="text-[9px] font-medium text-[#00A8C6]">Капли для глаз</div>
+                  <div class="flex justify-between text-[7px] font-mono text-zinc-800 mt-0.5">
+                    <span>фенилэфрин</span><span class="text-[#00A8C6] font-bold">5,0%</span>
+                  </div>
+                  <div class="flex justify-between text-[7px] font-mono text-zinc-800">
+                    <span>тропикамид</span><span class="text-[#00A8C6] font-bold">0,8%</span>
+                  </div>
+                  <div class="flex justify-between text-[6px] font-mono opacity-60 mt-1.5">
+                    <span>10 мл</span><span>СТЕРИЛЬНО</span>
+                  </div>
+                </div>
+                <div class="h-2.5 bg-[#00B8D4] -mx-3 -mb-3 mt-1.5"></div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'cherry-almond',
+        num: 'N°014',
+        title: '«Вишня и миндаль» — Конфеты',
+        category: 'packaging',
+        categoryLabel: 'Дизайн упаковки',
+        client: 'Кондитерская серия',
+        format: 'Подарочная коробка конфет',
+        year: '2026',
+        role: 'Паттерн, каллиграфическая этикетка, конструктив',
+        filename: 'image_8d86bfe9.jpg',
+        palette: ['#3A231E', '#B77D8A', '#9A1F2E', '#F7F3EE'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-1',
+        desc: 'Атмосферная винтажная упаковка для шоколадных конфет с вишней и миндалём. Глубокий оттенок тёмного шоколада сочетается с пыльно-розовой полоской на бортах, аппетитным паттерном ингредиентов и ажурной кружевной салфеткой в центре крышки.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#ECECED] flex items-center justify-center p-5 select-none">
+            <div class="w-44 rounded-xl overflow-hidden shadow-2xl border border-black/10 flex flex-col">
+              <!-- Крышка коробки -->
+              <div class="bg-[#3A231E] p-4 flex items-center justify-center relative overflow-hidden">
+                <!-- Декор вишен и миндаля -->
+                <span class="absolute top-2 left-3 w-3 h-3 rounded-full bg-[#9A1F2E]"></span>
+                <span class="absolute top-3 right-4 w-3.5 h-2 rounded-full bg-[#C78F52] rotate-45"></span>
+                <span class="absolute bottom-2 left-5 w-3.5 h-2 rounded-full bg-[#C78F52] -rotate-12"></span>
+                <span class="absolute bottom-2 right-3 w-3 h-3 rounded-full bg-[#9A1F2E]"></span>
+                <!-- Кружевная этикетка -->
+                <div class="bg-[#F7F3EE] px-4 py-2.5 rounded-full border-2 border-dashed border-[#D8CFC8] text-center shadow-md relative z-10">
+                  <div class="text-[5px] font-mono uppercase tracking-widest text-[#3A231E]/70">конфеты шоколадные</div>
+                  <div class="font-serif italic font-bold text-base leading-none text-[#7A1826] mt-0.5">вишня<br/>миндаль</div>
+                </div>
+              </div>
+              <!-- Полосатая боковина -->
+              <div class="h-16 relative" style="background: repeating-linear-gradient(90deg, #3A231E 0px, #3A231E 8px, #B77D8A 8px, #B77D8A 16px);">
+                <div class="w-6 h-3 bg-[#3A231E] rounded-b-full mx-auto"></div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'smeg-newyear',
+        num: 'N°015',
+        title: 'SMEG — Новогодний баннер',
+        category: 'expo',
+        categoryLabel: 'Рекламный баннер',
+        client: 'Фирменный салон SMEG (Москва)',
+        format: 'Широкоформатный баннер / Digital',
+        year: '2026',
+        role: 'Композиция, фотомонтаж, типографика',
+        filename: 'Баннер_макет.jpg',
+        palette: ['#0F3342', '#8B1A22', '#708A96', '#FFFFFF'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-1',
+        desc: 'Праздничный рекламный макет «Праздник со вкусом» для московского салона SMEG. Кинематографичный контраст глубокого хвойно-синего и винного драпированного фона подчёркивает глянцевую белизну культовой ретро-техники.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#0F3342] relative overflow-hidden p-4 sm:p-5 flex flex-col justify-between text-white select-none">
+            <!-- Правая красная драпировка -->
+            <div class="absolute top-0 right-0 w-[38%] h-[62%] bg-gradient-to-bl from-[#9C1D25] to-[#570E14] -skew-x-6 origin-top-right"></div>
+            <!-- Нижняя поверхность стола -->
+            <div class="absolute bottom-0 inset-x-0 h-[50%] bg-gradient-to-b from-[#6F8B97] to-[#577380]"></div>
+
+            <div class="relative z-10 flex justify-between items-start">
+              <div>
+                <div class="font-serif italic text-xl sm:text-2xl leading-[0.95]">С Новым<br/>годом</div>
+                <div class="font-sans text-[7px] tracking-wider uppercase opacity-85 mt-1.5">Праздник со вкусом</div>
+              </div>
+              <div class="text-right">
+                <div class="font-display font-bold text-xs tracking-[0.25em]">SMEG</div>
+                <div class="text-[5px] opacity-75">ФИРМЕННЫЙ САЛОН</div>
+              </div>
+            </div>
+
+            <!-- Стилизованные чайник, тостер и кружка -->
+            <div class="relative z-10 flex items-end justify-between gap-2 mt-2">
+              <div class="text-[7px] leading-tight">
+                <div class="font-bold">г. Москва,<br/>ул. Тверская, 15</div>
+                <div class="opacity-75 mt-1 font-mono text-[6px]">10:00 — 22:00</div>
+              </div>
+              <div class="flex items-end gap-2">
+                <!-- Белый чайник -->
+                <div class="w-12 h-14 rounded-t-full rounded-b-lg bg-gradient-to-br from-white to-zinc-300 shadow-lg flex items-center justify-center text-[6px] font-bold text-zinc-500">SMEG</div>
+                <!-- Клетчатая кружка -->
+                <div class="w-6 h-6 rounded-b-md bg-[#A61C24] border-t-2 border-white shadow-md"></div>
+                <!-- Белый тостер -->
+                <div class="w-12 h-9 rounded-t-2xl rounded-b-md bg-gradient-to-br from-white to-zinc-300 shadow-lg flex items-center justify-center text-[5px] font-bold text-zinc-500">SMEG</div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'fashion-cover',
+        num: 'N°016',
+        title: 'FASHION — Обложка журнала',
+        category: 'print',
+        categoryLabel: 'Журнальная вёрстка',
+        client: 'Editorial / Концепт-обложка',
+        format: 'Обложка журнала (April 2026)',
+        year: '2026',
+        role: 'Арт-дирекшн, шрифтовая иерархия, мастхед',
+        filename: 'ab62a03e-c7b7-4971-a88e-2558e9c0f4bc.jpg',
+        palette: ['#EB68A6', '#D4B699', '#3D2E29', '#FFFFFF'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-2',
+        desc: 'Глянцевая обложка модного журнала. Мощный розовый мастхед FASHION наложен на воздушную закатную съёмку у воды, а сочетание узкого гротеска и элегантного антиквенного курсива создаёт живой редакционный ритм.',
+        renderArt: () => `
+          <div class="w-full h-full bg-gradient-to-b from-[#D7C3C6] via-[#C6A79C] to-[#56433E] p-4 flex flex-col justify-between text-white relative overflow-hidden select-none">
+            <!-- Летящая ткань (силуэт) -->
+            <div class="absolute inset-0 pointer-events-none">
+              <div class="w-40 h-40 rounded-full bg-[#E5C9A8]/45 blur-xl absolute top-1/3 left-1/4"></div>
+            </div>
+            <div class="relative z-10">
+              <div class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-[#EB68A6] text-center leading-none">FASHION</div>
+              <div class="font-mono text-[8px] mt-1 tracking-wider">APRIL 2026</div>
+            </div>
+            <div class="relative z-10 flex items-end justify-between gap-2">
+              <div class="leading-none">
+                <div class="font-serif italic text-xl">NEW</div>
+                <div class="font-sans font-light text-base tracking-wide">SEASON<br/>EDIT</div>
+              </div>
+              <div class="text-right text-[7px] leading-tight">
+                <div class="font-serif italic text-xs text-[#EB68A6]">10 must have</div>
+                <div class="uppercase tracking-wide opacity-90">SUMMER ITEMS</div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'travel-cover',
+        num: 'N°017',
+        title: 'TRAVEL — Усьвинские столбы',
+        category: 'print',
+        categoryLabel: 'Журнальная вёрстка',
+        client: 'Editorial / Туристический журнал',
+        format: 'Обложка журнала (Perm Region)',
+        year: '2026',
+        role: 'Вёрстка обложки, типографика, цветовые акценты',
+        filename: 'f67cd803-cf57-4971-bf6d-fff0298083f0.jpg',
+        palette: ['#F2DA24', '#3E5B32', '#6C7D94', '#FFFFFF'],
+        aspect: 'md:col-span-4',
+        deskRot: '-rotate-2',
+        desc: 'Атмосферная обложка тревел-журнала о Пермском крае и Усьвинских столбах. Крупная белая антиква travel перекликается с утренним туманом над тайгой, а солнечный жёлтый акцент направляет взгляд на главную тему номера.',
+        renderArt: () => `
+          <div class="w-full h-full bg-gradient-to-b from-[#667B96] via-[#9EA6AF] to-[#2F4724] p-4 flex flex-col justify-between text-white relative overflow-hidden select-none">
+            <!-- Силуэт скалы Усьвинские столбы -->
+            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[64%] bg-gradient-to-b from-[#8B7D56] via-[#665F48] to-[#26361D] rounded-t-xl opacity-90"></div>
+            <div class="relative z-10 text-center">
+              <div class="font-serif font-bold text-4xl sm:text-5xl tracking-tight leading-none">travel</div>
+            </div>
+            <div class="relative z-10 flex justify-between items-center text-[7px] leading-tight">
+              <div class="max-w-[42%]">
+                <div class="font-serif font-semibold">Active recreation<br/>in the Kama region.</div>
+                <div class="w-8 h-0.5 bg-[#F2DA24] my-1"></div>
+                <div class="opacity-80">Stone City • Rafting</div>
+              </div>
+              <div class="text-right max-w-[42%]">
+                <div class="font-serif font-bold text-[10px] leading-tight">The Urals<br/>that will<br/>surprise you</div>
+                <div class="text-[#F2DA24] font-bold text-xs">+</div>
+              </div>
+            </div>
+            <div class="relative z-10 font-serif font-bold text-xs leading-tight">
+              Expedition to the <span class="text-[#F2DA24]">Usvinsky pillars.</span><br/>
+              The best routes in the Perm region.
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: 'spo-85-booklet',
+        num: 'N°018',
+        title: '«85 лет СПО» — Профессионалитет',
+        category: 'print',
+        categoryLabel: 'Информационный буклет',
+        client: 'Система среднего профобразования',
+        format: 'Евробуклет A4 (2 фальца, 6 полос)',
+        year: '2026',
+        role: 'Многополосная вёрстка, инфографика, дуотон',
+        filename: 'image_e6a8c25a.jpg',
+        palette: ['#1D3E8A', '#C86D51', '#F4F5F7', '#1E2430'],
+        aspect: 'md:col-span-4',
+        deskRot: 'rotate-1',
+        desc: 'Юбилейный информационный буклет к 85-летию системы СПО и программе «Профессионалитет». Чёткая шестиполосная модульная структура, контраст академического синего и тёплой терракотовой тонировки архивных и современных фотографий.',
+        renderArt: () => `
+          <div class="w-full h-full bg-[#DCE0E4] p-4 flex items-center justify-center gap-2.5 select-none">
+            <!-- Внешний разворот -->
+            <div class="w-[48%] h-[78%] bg-white shadow-lg grid grid-cols-3 overflow-hidden text-[#1D3E8A]">
+              <div class="p-1.5 flex flex-col justify-between border-r border-black/5">
+                <div class="font-display font-bold text-[5px]">ПРОФЕССИОНАЛИТЕТ</div>
+                <div class="h-8 bg-[#1D3E8A]/15 rounded-xs"></div>
+                <div class="h-6 bg-[#1D3E8A] -mx-1.5 -mb-1.5"></div>
+              </div>
+              <div class="bg-[#3E5070] p-1.5 flex flex-col justify-end">
+                <div class="h-1/2 bg-white -mx-1.5 -mb-1.5 p-1 text-[4px] text-[#C86D51]">япроф.рф</div>
+              </div>
+              <div class="p-1.5 flex flex-col items-center justify-between border-l border-black/5">
+                <div class="w-full h-10 bg-[#1D3E8A]/10"></div>
+                <div class="w-9 h-9 rounded-full border-2 border-[#1D3E8A] flex flex-col items-center justify-center leading-none">
+                  <span class="font-display font-extrabold text-[9px]">85</span>
+                  <span class="text-[4px] font-bold">ЛЕТ СПО</span>
+                </div>
+                <div class="text-[4px] text-center text-[#C86D51]">Шаг в профессию</div>
+              </div>
+            </div>
+            <!-- Внутренний разворот -->
+            <div class="w-[48%] h-[78%] bg-white shadow-lg grid grid-cols-3 overflow-hidden text-[#1D3E8A]">
+              <div class="p-1.5 flex flex-col justify-between border-r border-black/5">
+                <div class="font-bold text-[5.5px] leading-tight">ИСТОРИЯ<br/>СПО</div>
+                <div class="h-8 bg-[#C86D51]/70 rounded-xs"></div>
+                <div class="space-y-0.5">
+                  <div class="h-0.5 bg-zinc-300 w-full"></div>
+                  <div class="h-0.5 bg-zinc-300 w-4/5"></div>
+                </div>
+              </div>
+              <div class="p-1.5 flex flex-col justify-between border-r border-black/5">
+                <div class="h-8 bg-[#C86D51]/60 rounded-xs"></div>
+                <div class="font-bold text-[5px] leading-tight">СОВРЕМЕННОЕ<br/>СОСТОЯНИЕ</div>
+                <div class="space-y-0.5">
+                  <div class="h-0.5 bg-zinc-300 w-full"></div>
+                  <div class="h-0.5 bg-zinc-300 w-3/4"></div>
+                </div>
+              </div>
+              <div class="bg-[#1D3E8A] text-white p-1.5 flex flex-col justify-between">
+                <div class="text-[5px] font-bold text-[#E6A08A]">ВОЗМОЖНОСТИ</div>
+                <div class="h-7 bg-[#C86D51]/60 rounded-xs"></div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+    ];
+
+    // Хранилище загруженных пользователем реальных картинок (массив ракурсов на каждый проект)
+    const customGalleries = {};
+    const STORAGE_KEY = 'lena_portfolio_galleries_v2';
+    let currentView = 'grid';
+    let currentFilter = 'all';
+    let activeModalIndex = 0;
+    let activeSlideIndex = 0;
+
+    // Загружаем сохранённые в браузере фото (если помещаются в localStorage)
+    function loadSavedPhotos() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          Object.assign(customGalleries, parsed);
+          return;
+        }
+        // Мягкая миграция со старого формата v1 (одно фото -> массив из 1 фото)
+        const legacy = localStorage.getItem('lena_portfolio_custom_photos_v1');
+        if (legacy) {
+          const parsedLegacy = JSON.parse(legacy);
+          Object.keys(parsedLegacy).forEach((id) => {
+            customGalleries[id] = [parsedLegacy[id]];
+          });
+        }
+      } catch (err) {
+        console.warn('Не удалось прочитать сохранённые фото:', err);
+      }
+    }
+
+    function saveGalleriesToStorage(silent) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(customGalleries));
+        if (!silent) showToast('Фото сохранены в браузере ✓');
+      } catch (err) {
+        if (!silent) showToast('Фото добавлены (большие файлы — на время сессии)');
+      }
+    }
+
+    function addPhotosToProject(projectId, dataUrls, silent) {
+      if (!customGalleries[projectId]) customGalleries[projectId] = [];
+      customGalleries[projectId].push(...dataUrls);
+      saveGalleriesToStorage(silent);
+    }
+
+    // Превращаем загруженный файл в DataURL для мгновенного показа и возможного сохранения
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // =========================================================================
+    // 2. РЕНДЕР ПРОЕКТОВ (3 РЕЖИМА: ВИТРИНА / ИНДЕКС / СТОЛ)
+    // =========================================================================
+    const container = document.getElementById('projects-container');
+    const hoverPreview = document.getElementById('index-hover-preview');
+    const hoverContent = document.getElementById('index-hover-content');
+
+    function getArtworkHTML(project) {
+      const photos = customGalleries[project.id];
+      if (photos && photos.length > 0) {
+        return `<img src="${photos[0]}" alt="${project.title}" class="w-full h-full object-cover" />`;
+      }
+      // Если сайт открыт локально, пробуем автоматически подхватить файл с таким же именем из той же папки
+      const safeName = encodeURIComponent(project.filename);
+      return `
+        <div class="w-full h-full relative" data-auto-image-wrap="${project.id}">
+          <img src="./${safeName}" alt="${project.title}" class="w-full h-full object-cover hidden" onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden');" onerror="this.remove();" />
+          <div class="w-full h-full">${project.renderArt()}</div>
+        </div>
+      `;
+    }
+
+    function getFilteredProjects() {
+      return currentFilter === 'all'
+        ? projects
+        : projects.filter((p) => p.category === currentFilter);
+    }
+
+    function renderProjects() {
+      const list = getFilteredProjects();
+      container.innerHTML = '';
+
+      if (currentView === 'grid') {
+        container.className = 'grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6';
+        list.forEach((p) => {
+          const photoCount = (customGalleries[p.id] || []).length;
+          const card = document.createElement('article');
+          card.className = `${currentFilter === 'all' ? p.aspect : 'md:col-span-6'} group cursor-pointer rounded-3xl bg-white border border-ink/10 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col`;
+          card.dataset.cursor = 'СМОТРЕТЬ';
+          card.innerHTML = `
+            <div class="relative w-full aspect-[4/3] overflow-hidden bg-[#ECEAE4]">
+              <div class="w-full h-full group-hover:scale-[1.03] transition-transform duration-500">
+                ${getArtworkHTML(p)}
+              </div>
+              <div class="absolute top-3.5 left-3.5 flex items-center gap-1.5">
+                <span class="px-2.5 py-1 rounded-lg bg-ink/85 text-paper backdrop-blur-md font-mono text-[10px] font-medium">${p.num}</span>
+                <span class="px-2.5 py-1 rounded-lg bg-paper/90 text-ink backdrop-blur-md font-mono text-[10px]">${p.year}</span>
+                ${photoCount > 1 ? `<span class="px-2 py-1 rounded-lg bg-accent text-white font-mono text-[10px]">${photoCount} фото</span>` : ''}
+              </div>
+              <div class="absolute bottom-3.5 right-3.5 w-9 h-9 rounded-full bg-ink text-paper flex items-center justify-center font-mono text-sm opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all shadow-md">
+                ↗
+              </div>
+            </div>
+            <div class="p-5 flex items-start justify-between gap-4">
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg leading-snug group-hover:text-accent transition-colors">${p.title}</h3>
+                <p class="font-mono text-[11px] opacity-60 mt-1">${p.categoryLabel} • ${p.format}</p>
+              </div>
+            </div>
+          `;
+          card.addEventListener('click', () => openModal(projects.findIndex((item) => item.id === p.id)));
+          container.appendChild(card);
+        });
+      } else if (currentView === 'index') {
+        // Режим «Индекс» (вдохновлено Studio Loum)
+        container.className = 'divide-y divide-ink/10 border-y border-ink/10';
+        list.forEach((p) => {
+          const row = document.createElement('div');
+          row.className = 'py-4 sm:py-5 px-2 sm:px-4 grid grid-cols-12 items-center gap-3 cursor-pointer hover:bg-ink hover:text-paper rounded-xl transition-colors group';
+          row.innerHTML = `
+            <div class="col-span-2 sm:col-span-1 font-mono text-xs opacity-60 group-hover:opacity-100">${p.num}</div>
+            <div class="col-span-7 sm:col-span-5 font-display font-semibold text-sm sm:text-lg truncate">${p.title}</div>
+            <div class="hidden sm:block sm:col-span-3 font-mono text-xs opacity-70 group-hover:opacity-100 truncate">${p.categoryLabel}</div>
+            <div class="hidden md:block md:col-span-2 font-mono text-xs opacity-60 group-hover:opacity-100 truncate">${p.format}</div>
+            <div class="col-span-3 sm:col-span-1 text-right font-mono text-xs">${p.year} ↗</div>
+          `;
+          row.addEventListener('mouseenter', () => {
+            hoverContent.innerHTML = getArtworkHTML(p);
+            hoverPreview.classList.remove('opacity-0', 'scale-90');
+            hoverPreview.classList.add('opacity-100', 'scale-100');
+          });
+          row.addEventListener('mouseleave', () => {
+            hoverPreview.classList.add('opacity-0', 'scale-90');
+            hoverPreview.classList.remove('opacity-100', 'scale-100');
+          });
+          row.addEventListener('click', () => {
+            hoverPreview.classList.add('opacity-0', 'scale-90');
+            openModal(projects.findIndex((item) => item.id === p.id));
+          });
+          container.appendChild(row);
+        });
+      } else if (currentView === 'desk') {
+        // Режим «Стол дизайнера» — разложенные макеты с лёгким наклоном
+        container.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-6';
+        list.forEach((p) => {
+          const card = document.createElement('div');
+          card.className = `${p.deskRot} hover:rotate-0 hover:scale-[1.03] hover:z-20 transition-all duration-300 cursor-pointer bg-white p-3 pb-4 rounded-2xl shadow-xl border border-ink/10`;
+          card.dataset.cursor = 'ОТКРЫТЬ';
+          card.innerHTML = `
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-3 border border-ink/10">
+              ${getArtworkHTML(p)}
+            </div>
+            <div class="flex items-center justify-between px-1">
+              <div>
+                <div class="font-display font-bold text-sm">${p.title}</div>
+                <div class="font-mono text-[10px] opacity-60">${p.num} — ${p.format}</div>
+              </div>
+              <span class="font-mono text-xs px-2 py-1 rounded-md bg-ink/5">↗</span>
+            </div>
+          `;
+          card.addEventListener('click', () => openModal(projects.findIndex((item) => item.id === p.id)));
+          container.appendChild(card);
+        });
+      }
+
+      bindCursorTargets();
+    }
+
+    // =========================================================================
+    // 3. МОДАЛЬНОЕ ОКНО КЕЙСА + КАРУСЕЛЬ РАКУРСОВ (БЕЗ ОБРЕЗКИ)
+    // =========================================================================
+    const modal = document.getElementById('project-modal');
+    const modalFileInput = document.getElementById('modal-file-input');
+    const modalArtwork = document.getElementById('modal-artwork');
+    const modalThumbs = document.getElementById('modal-thumbs');
+    const slidePrevBtn = document.getElementById('slide-prev');
+    const slideNextBtn = document.getElementById('slide-next');
+    const slideCounter = document.getElementById('slide-counter');
+    const removeSlideBtn = document.getElementById('modal-remove-slide');
+
+    // Собираем список слайдов для текущего проекта
+    function getProjectSlides(project) {
+      const uploaded = customGalleries[project.id] || [];
+      if (uploaded.length > 0) {
+        return uploaded.map((src, idx) => ({
+          type: 'uploaded',
+          src,
+          label: `Ракурс ${idx + 1}`,
+          uploadIndex: idx,
+        }));
+      }
+      // Если фото ещё не загружены вручную — показываем авто-подхват файла или векторный макет
+      return [
+        {
+          type: 'default',
+          label: 'Макет',
+        },
+      ];
+    }
+
+    function renderModalSlides() {
+      const p = projects[activeModalIndex];
+      const slides = getProjectSlides(p);
+      if (activeSlideIndex >= slides.length) activeSlideIndex = 0;
+      if (activeSlideIndex < 0) activeSlideIndex = slides.length - 1;
+
+      const current = slides[activeSlideIndex];
+
+      // Показываем фото целиком (object-contain), чтобы ничего не обрезалось!
+      if (current.type === 'uploaded') {
+        modalArtwork.innerHTML = `
+          <img src="${current.src}" alt="${p.title} — ${current.label}" class="max-w-full max-h-[60vh] w-auto h-auto object-contain rounded-lg shadow-sm" />
+        `;
+      } else {
+        const safeName = encodeURIComponent(p.filename);
+        modalArtwork.innerHTML = `
+          <div class="w-full flex items-center justify-center">
+            <img src="./${safeName}" alt="${p.title}" class="max-w-full max-h-[60vh] w-auto h-auto object-contain rounded-lg shadow-sm hidden" onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden');" onerror="this.remove();" />
+            <div class="w-full h-[320px] sm:h-[420px] rounded-xl overflow-hidden shadow-sm">${p.renderArt()}</div>
+          </div>
+        `;
+      }
+
+      // Стрелки и счётчик, если фото больше одного
+      const hasMultiple = slides.length > 1;
+      slidePrevBtn.classList.toggle('hidden', !hasMultiple);
+      slideNextBtn.classList.toggle('hidden', !hasMultiple);
+      slideCounter.classList.toggle('hidden', !hasMultiple);
+      slideCounter.textContent = `${activeSlideIndex + 1} / ${slides.length}`;
+
+      // Кнопка удаления доступна для загруженных фото
+      removeSlideBtn.classList.toggle('hidden', current.type !== 'uploaded');
+
+      // Миниатюры под галереей
+      if (slides.length > 1) {
+        modalThumbs.classList.remove('hidden');
+        modalThumbs.innerHTML = slides
+          .map(
+            (s, i) => `
+            <button type="button" onclick="goToSlide(${i})" class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all bg-[#ECEAE4] ${i === activeSlideIndex ? 'border-accent scale-105 shadow-sm' : 'border-transparent opacity-60 hover:opacity-100'}">
+              <img src="${s.src}" alt="${s.label}" class="w-full h-full object-cover" />
+            </button>
+          `
+          )
+          .join('');
+      } else {
+        modalThumbs.classList.add('hidden');
+        modalThumbs.innerHTML = '';
+      }
+    }
+
+    window.goToSlide = function (index) {
+      activeSlideIndex = index;
+      renderModalSlides();
+    };
+
+    function openModal(index) {
+      activeModalIndex = (index + projects.length) % projects.length;
+      activeSlideIndex = 0;
+      const p = projects[activeModalIndex];
+
+      document.getElementById('modal-num').textContent = p.num;
+      document.getElementById('modal-cat').textContent = p.categoryLabel;
+      document.getElementById('modal-title').textContent = p.title;
+      document.getElementById('modal-desc').textContent = p.desc;
+      document.getElementById('modal-client').textContent = p.client;
+      document.getElementById('modal-format').textContent = p.format;
+      document.getElementById('modal-year').textContent = p.year;
+      document.getElementById('modal-role').textContent = p.role;
+      document.getElementById('modal-filename').textContent = `Файл: ${p.filename}`;
+      renderModalSlides();
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-prev').addEventListener('click', () => openModal(activeModalIndex - 1));
+    document.getElementById('modal-next').addEventListener('click', () => openModal(activeModalIndex + 1));
+    slidePrevBtn.addEventListener('click', () => {
+      activeSlideIndex--;
+      renderModalSlides();
+    });
+    slideNextBtn.addEventListener('click', () => {
+      activeSlideIndex++;
+      renderModalSlides();
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      const slides = getProjectSlides(projects[activeModalIndex]);
+      if (e.key === 'ArrowRight') {
+        if (slides.length > 1) {
+          activeSlideIndex++;
+          renderModalSlides();
+        } else {
+          openModal(activeModalIndex + 1);
+        }
+      }
+      if (e.key === 'ArrowLeft') {
+        if (slides.length > 1) {
+          activeSlideIndex--;
+          renderModalSlides();
+        } else {
+          openModal(activeModalIndex - 1);
+        }
+      }
+    });
+
+    // Свайп влево/вправо на телефоне для листания ракурсов
+    let touchStartX = 0;
+    modalArtwork.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    modalArtwork.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      const slides = getProjectSlides(projects[activeModalIndex]);
+      if (slides.length <= 1 || Math.abs(diff) < 40) return;
+      activeSlideIndex += diff < 0 ? 1 : -1;
+      renderModalSlides();
+    }, { passive: true });
+
+    // Удаление текущего фото из галереи проекта
+    removeSlideBtn.addEventListener('click', () => {
+      const p = projects[activeModalIndex];
+      if (!customGalleries[p.id] || customGalleries[p.id].length === 0) return;
+      customGalleries[p.id].splice(activeSlideIndex, 1);
+      if (customGalleries[p.id].length === 0) delete customGalleries[p.id];
+      saveGalleriesToStorage(true);
+      activeSlideIndex = Math.max(0, activeSlideIndex - 1);
+      renderModalSlides();
+      renderProjects();
+      showToast('Фото удалено из проекта');
+    });
+
+    // Загрузка одного или сразу нескольких ракурсов из модалки проекта
+    modalFileInput.addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      const p = projects[activeModalIndex];
+      const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
+      const prevCount = (customGalleries[p.id] || []).length;
+      addPhotosToProject(p.id, dataUrls);
+      activeSlideIndex = prevCount;
+      renderModalSlides();
+      renderProjects();
+      e.target.value = '';
+    });
+
+    // =========================================================================
+    // 4. МОДАЛКА МАССОВОЙ ПОДГРУЗКИ РЕАЛЬНЫХ ФОТО
+    // =========================================================================
+    const uploadModal = document.getElementById('upload-modal');
+    const bulkList = document.getElementById('bulk-upload-list');
+
+    function renderBulkUploadList() {
+      bulkList.innerHTML = projects
+        .map((p) => {
+          const count = (customGalleries[p.id] || []).length;
+          return `
+          <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-white border border-ink/10">
+            <div class="min-w-0">
+              <div class="font-display text-xs font-bold truncate">${p.num} — ${p.title}</div>
+              <div class="font-mono text-[10px] opacity-60 truncate">${count > 0 ? `✓ Загружено фото: ${count}` : 'Имя файла: ' + p.filename}</div>
+            </div>
+            <label class="shrink-0 cursor-pointer px-3 py-1.5 rounded-xl ${count > 0 ? 'bg-accent text-white' : 'bg-ink text-paper'} font-mono text-[11px] font-medium">
+              <span>${count > 0 ? '+ ещё' : 'выбрать'}</span>
+              <input type="file" accept="image/*" multiple class="hidden" onchange="handleBulkFile(event, '${p.id}')" />
+            </label>
+          </div>
+        `;
+        })
+        .join('');
+    }
+
+    window.handleBulkFile = async function (event, projectId) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+      const dataUrls = await Promise.all(files.map(readFileAsDataUrl));
+      addPhotosToProject(projectId, dataUrls);
+      renderProjects();
+      renderBulkUploadList();
+    };
+
+    // Массовая загрузка сразу нескольких файлов с сопоставлением по имени файла
+    document.getElementById('multi-file-input').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      let matched = 0;
+
+      for (const file of files) {
+        const cleanName = file.name.trim().toLowerCase();
+        const baseName = cleanName.replace(/\.[^.]+$/, '');
+        const found = projects.find(
+          (p) =>
+            p.filename.toLowerCase() === cleanName ||
+            p.filename.toLowerCase().replace(/\.[^.]+$/, '') === baseName ||
+            cleanName.includes(p.id.toLowerCase())
+        );
+        if (found) {
+          const dataUrl = await readFileAsDataUrl(file);
+          addPhotosToProject(found.id, [dataUrl], true);
+          matched++;
+        }
+      }
+
+      if (matched > 0) saveGalleriesToStorage(true);
+      renderProjects();
+      renderBulkUploadList();
+      showToast(
+        matched > 0
+          ? `Сопоставлено и добавлено работ: ${matched} из ${files.length}!`
+          : 'Файлы выбраны — подставь их по кнопкам «выбрать» напротив нужных работ'
+      );
+      e.target.value = '';
+    });
+
+    document.getElementById('clear-saved-photos').addEventListener('click', () => {
+      Object.keys(customGalleries).forEach((k) => delete customGalleries[k]);
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('lena_portfolio_custom_photos_v1');
+      } catch (err) {
+        console.warn(err);
+      }
+      renderProjects();
+      renderBulkUploadList();
+      showToast('Сохранённые фото очищены');
+    });
+
+    document.getElementById('open-upload-help').addEventListener('click', () => {
+      renderBulkUploadList();
+      uploadModal.classList.remove('hidden');
+      uploadModal.classList.add('flex');
+    });
+    document.getElementById('close-upload-modal').addEventListener('click', () => {
+      uploadModal.classList.add('hidden');
+      uploadModal.classList.remove('flex');
+    });
+    uploadModal.addEventListener('click', (e) => {
+      if (e.target === uploadModal) {
+        uploadModal.classList.add('hidden');
+        uploadModal.classList.remove('flex');
+      }
+    });
+
+    // =========================================================================
+    // 5. ФИЛЬТРЫ И ПЕРЕКЛЮЧАТЕЛИ ВИДА
+    // =========================================================================
+    document.querySelectorAll('.view-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentView = btn.dataset.view;
+        document.querySelectorAll('.view-btn').forEach((b) => {
+          b.className = 'view-btn px-3.5 py-2 rounded-lg hover:bg-white/70 transition-all';
+        });
+        btn.className = 'view-btn px-3.5 py-2 rounded-lg bg-ink text-paper font-medium transition-all';
+        renderProjects();
+      });
+    });
+
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+        document.querySelectorAll('.filter-btn').forEach((b) => {
+          b.className = 'filter-btn shrink-0 px-4 py-2 rounded-full bg-white border border-ink/10 hover:border-ink/40 font-mono text-xs transition-all';
+        });
+        btn.className = 'filter-btn shrink-0 px-4 py-2 rounded-full bg-ink text-paper font-mono text-xs font-medium transition-all';
+        renderProjects();
+      });
+    });
+
+    // =========================================================================
+    // 6. ПЕРЕТАСКИВАЕМЫЕ СТИКЕРЫ В HERO (МЫШЬ + ТАЧ)
+    // =========================================================================
+    document.querySelectorAll('.sticker').forEach((el) => {
+      let isDragging = false;
+      let startX, startY, origX = 0, origY = 0;
+
+      const onStart = (clientX, clientY) => {
+        isDragging = true;
+        startX = clientX - origX;
+        startY = clientY - origY;
+      };
+
+      const onMove = (clientX, clientY) => {
+        if (!isDragging) return;
+        origX = clientX - startX;
+        origY = clientY - startY;
+        el.style.transform = `translate(${origX}px, ${origY}px) rotate(${el.dataset.rot || 0}deg)`;
+      };
+
+      const onEnd = () => {
+        isDragging = false;
+      };
+
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        onStart(e.clientX, e.clientY);
+      });
+      window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
+      window.addEventListener('mouseup', onEnd);
+
+      el.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        onStart(t.clientX, t.clientY);
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const t = e.touches[0];
+        onMove(t.clientX, t.clientY);
+      }, { passive: true });
+      window.addEventListener('touchend', onEnd);
+    });
+
+    document.getElementById('shuffle-stickers').addEventListener('click', () => {
+      document.querySelectorAll('.sticker').forEach((el) => {
+        const rx = Math.round((Math.random() - 0.5) * 140);
+        const ry = Math.round((Math.random() - 0.5) * 90);
+        const rot = Math.round((Math.random() - 0.5) * 28);
+        el.dataset.rot = rot;
+        el.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        el.style.transform = `translate(${rx}px, ${ry}px) rotate(${rot}deg)`;
+        setTimeout(() => (el.style.transition = ''), 500);
+      });
+      showToast('Стикеры перемешаны ✦');
+    });
+
+    // =========================================================================
+    // 7. КАСТОМНЫЙ КУРСОР И ПЛАВАЮЩЕЕ ПРЕВЬЮ В РЕЖИМЕ «ИНДЕКС»
+    // =========================================================================
+    const cursor = document.getElementById('custom-cursor');
+    const cursorLabel = document.getElementById('cursor-label');
+
+    window.addEventListener('mousemove', (e) => {
+      if (cursor) {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+        cursor.classList.remove('opacity-0');
+      }
+      if (hoverPreview && !hoverPreview.classList.contains('opacity-0')) {
+        const offsetX = e.clientX + 320 > window.innerWidth ? -310 : 28;
+        const offsetY = Math.min(Math.max(e.clientY - 140, 20), window.innerHeight - 360);
+        hoverPreview.style.left = `${e.clientX + offsetX}px`;
+        hoverPreview.style.top = `${offsetY}px`;
+      }
+    });
+
+    function bindCursorTargets() {
+      if (!cursor || !cursorLabel) return;
+      document.querySelectorAll('[data-cursor]').forEach((el) => {
+        if (el.dataset.cursorBound) return;
+        el.dataset.cursorBound = '1';
+        el.addEventListener('mouseenter', () => {
+          cursorLabel.textContent = el.dataset.cursor;
+          cursorLabel.classList.remove('hidden');
+          cursor.classList.remove('w-3.5', 'h-3.5');
+          cursor.classList.add('w-auto', 'h-8');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorLabel.classList.add('hidden');
+          cursor.classList.add('w-3.5', 'h-3.5');
+          cursor.classList.remove('w-auto', 'h-8');
+        });
+      });
+    }
+
+    // =========================================================================
+    // 8. ЧАСЫ, ФОРМА, БУФЕР ОБМЕНА, TOAST
+    // =========================================================================
+    // Мобильное меню
+    const mobileMenu = document.getElementById('mobile-menu');
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach((link) => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Живые часы (Пермь, UTC+5)
+    function updateClock() {
+      try {
+        const now = new Date();
+        const formatter = new Intl.DateTimeFormat('ru-RU', {
+          timeZone: 'Asia/Yekaterinburg',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+        document.getElementById('live-clock').textContent = formatter.format(now);
+      } catch {
+        document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('ru-RU');
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Копирование в буфер через execCommand (безопасно для iFrame)
+    window.copyText = function (text, message) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(message || 'Скопировано!');
+      } catch {
+        showToast('Не удалось скопировать');
+      }
+      document.body.removeChild(textarea);
+    };
+
+    document.getElementById('copy-email-btn').addEventListener('click', () => {
+      const email = document.getElementById('designer-email').textContent.trim();
+      copyText(email, `Email ${email} скопирован!`);
+    });
+
+    // Чипсы выбора услуг в форме
+    document.querySelectorAll('.chip-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('bg-ink');
+        btn.classList.toggle('text-paper');
+      });
+    });
+
+    // Отправка формы (демо)
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Заявка отправлена! Скоро отвечу ✦');
+      e.target.reset();
+      document.querySelectorAll('.chip-btn').forEach((b) => {
+        b.classList.remove('bg-ink', 'text-paper');
+      });
+    });
+
+    // Toast-уведомление
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+      }, 2600);
+    }
+
+    // Анимация появления при скролле
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Первичный рендер
+    loadSavedPhotos();
+    renderProjects();
+  </script>
+</body>
+</html>
